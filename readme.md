@@ -2,17 +2,19 @@
 
 
 
-- [qrcode](https://www.npmjs.com/package/qrcode)
 - [mongoose](https://www.npmjs.com/package/mongoose)
 - [express.js](https://www.npmjs.com/package/express)
-
+- [validator.js](https://www.npmjs.com/package/validator)
+- [qrcode](https://www.npmjs.com/package/qrcode)
+- [@sendgrid/mail](https://www.npmjs.com/package/@sendgrid/mail)
 
 
 Todo:
 
 - Delete RSVP after expiration
 - Handle the dataURL correctly
-- Patch/Delete
-- Accept/Decline
 - Status codes
-- Auth
+- Auth?
+- Sanitize Date/Time/Phone/Location
+- Geocode location
+- Prettier emails

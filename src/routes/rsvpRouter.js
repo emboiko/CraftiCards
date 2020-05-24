@@ -2,6 +2,7 @@ const express = require("express");
 const QRcode = require("qrcode");
 const mongoose = require("mongoose");
 const RSVP = require("../models/RSVP");
+const acceptEmail = require("../email/acceptEmail");
 
 const rsvpRouter = new express.Router();
 
@@ -79,14 +80,37 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
         const rsvp = await RSVP.findOne({ id: req.params.id })
         if (!rsvp) return res.status(404).send();
 
+        const invalid = rsvp.joined.some((party) => {
+            return party.email === req.body.email;
+        });
+
+        if (invalid) {
+            return res.status(400).send({ "Error": "Already Registered" });
+        }
+
         if (req.body.accepted) {
             rsvp.num_guests += req.body.num_guests;
-            rsvp.joined = rsvp.joined.concat({ party: req.body.party });
+            rsvp.joined = rsvp.joined.concat({ party: req.body.party, email: req.body.email });
+
+            acceptEmail(
+                req.body.email,
+                rsvp.author_email,
+                rsvp.author_phone,
+                rsvp.title,
+                rsvp.description,
+                rsvp.location,
+                rsvp.date,
+                rsvp.time,
+            );
+        } else {
+            rsvp.declined = rsvp.declined.concat({ party: req.body.party, email: req.body.email });
+
         }
 
         await rsvp.save();
         res.status(201).send(rsvp);
     } catch (err) {
+        console.log(err);
         res.status(400).send();
     }
 });
@@ -101,5 +125,6 @@ rsvpRouter.get("/rsvp/:id/qr", async (req, res) => {
         res.status(400).send();
     }
 });
+
 
 module.exports = rsvpRouter;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const RSVP_Schema = new mongoose.Schema({
     author: {
@@ -10,6 +11,7 @@ const RSVP_Schema = new mongoose.Schema({
         type: String,
         trim: true,
         lowercase: true,
+        required: true
     },
     author_phone: {
         type: Number,
@@ -23,17 +25,17 @@ const RSVP_Schema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    location: {
+        type: String,
+        required: true,
+        trim: true
+    },
     date: {
         type: String,
         required: true,
         trim: true
     },
     time: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    location: {
         type: String,
         required: true,
         trim: true
@@ -53,7 +55,29 @@ const RSVP_Schema = new mongoose.Schema({
     joined: [{
         party: {
             type: String,
-            required: true
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+            validate(email) {
+                if (!validator.isEmail(email)) throw new Error("Invalid Email.");
+            }
+        }
+    }],
+    declined: [{
+        party: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+            validate(email) {
+                if (!validator.isEmail(email)) throw new Error("Invalid Email.");
+            }
         }
     }]
 }, {
