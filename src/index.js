@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const rsvpRouter = require("./routes/rsvpRouter");
+const userRouter = require("./routes/userRouter");
 require("./db/mongoose");
 
 const app = express();
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(rsvpRouter);
+app.use(userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

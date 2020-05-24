@@ -14,3 +14,4 @@ Todo:
 - Sanitize Date/Time/Phone/Location
 - Geocode location
 - Prettier emails / register / delete account
+- Private RSVP accept via password => create password optionally in schema
