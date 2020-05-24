@@ -69,7 +69,7 @@ rsvpRouter.delete("/rsvp/:id", async (req, res) => {
         const rsvp = await RSVP.findOneAndDelete({ id: req.params.id });
         if (!rsvp) return res.status(404).send();
 
-        res.send();
+        res.status(200).send();
     } catch (err) {
         res.status(400).send(err);
     }
@@ -88,10 +88,12 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
             return res.status(400).send({ "Error": "Already Registered" });
         }
 
+        //todo: check if we're already declined and remove from declined
         if (req.body.accepted) {
             rsvp.num_guests += req.body.num_guests;
             rsvp.joined = rsvp.joined.concat({ party: req.body.party, email: req.body.email });
 
+            //todo: probably include the QR + RSVP ID in the email, too.
             acceptEmail(
                 req.body.email,
                 rsvp.author_email,
@@ -104,13 +106,11 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
             );
         } else {
             rsvp.declined = rsvp.declined.concat({ party: req.body.party, email: req.body.email });
-
         }
 
         await rsvp.save();
-        res.status(201).send(rsvp);
+        res.status(201).send();
     } catch (err) {
-        console.log(err);
         res.status(400).send();
     }
 });
@@ -120,7 +120,7 @@ rsvpRouter.get("/rsvp/:id/qr", async (req, res) => {
         const rsvp = await RSVP.findOne({ id: req.params.id });
         if (!rsvp) return res.status(404).send();
 
-        res.render("qr", { qr: rsvp.qr }); //res.send?
+        res.render("qr", { qr: rsvp.qr });
     } catch (err) {
         res.status(400).send();
     }

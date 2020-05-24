@@ -41,7 +41,7 @@ const RSVP_Schema = new mongoose.Schema({
         trim: true
     },
     qr: {
-        type: Buffer,
+        type: String,
         required: true
     },
     id: {
