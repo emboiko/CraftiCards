@@ -39,14 +39,23 @@ const RSVP_Schema = new mongoose.Schema({
         trim: true
     },
     qr: {
-        type: Buffer
+        type: Buffer,
+        required: true
     },
     id: {
         type: String,
         required: true
     },
-    joined: [],
-    declined: []
+    num_guests: {
+        type: Number,
+        default: 0
+    },
+    joined: [{
+        party: {
+            type: String,
+            required: true
+        }
+    }]
 }, {
     timestamps: true
 });

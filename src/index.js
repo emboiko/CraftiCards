@@ -16,7 +16,6 @@ app.use(frontRouter);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// QR
 // Authentication / middleware
 // Sample Front-end
 // Landing Page / Dev Page / Documentation
