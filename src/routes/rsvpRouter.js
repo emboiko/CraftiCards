@@ -2,13 +2,18 @@ const express = require("express");
 const QRcode = require("qrcode");
 const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
+const checkUser = require("../middleware/checkUser");
 const RSVP = require("../models/RSVP");
-const {acceptEmail} = require("../email/Email");
+const {acceptEmail, creationEmail} = require("../email/Email");
 
 const rsvpRouter = new express.Router();
 
-rsvpRouter.get("/", (req, res) => {
-    res.status(200).redirect(`http://127.0.0.1:1337`);
+rsvpRouter.get("/about", checkUser, (req, res) => {
+    res.render("about", {user: req.user, pageTitle:"RSVme | About"})
+});
+
+rsvpRouter.get("/rsvp", checkUser, (req, res) => {
+    res.render("create_rsvp", {user: req.user, pageTitle:"RSVme | Create"})
 });
 
 rsvpRouter.post("/rsvp", auth, async (req, res) => {
@@ -25,33 +30,34 @@ rsvpRouter.post("/rsvp", auth, async (req, res) => {
     try {
         await rsvp.save();
         //creationEmail() //todo
-        res.status(201).send(rsvp);
+        res.status(201).redirect(`/rsvp/${id}`);
     } catch (err) {
-        res.status(400).send(err);
+        console.log(err);
+        res.status(400).render("notfound", {user: req.user, pageTitle:"RSVme | 404"});
     }
 });
 
-rsvpRouter.get("/rsvp/:id", async (req, res) => {
+rsvpRouter.get("/rsvp/:id", checkUser, async (req, res) => {
     try {
         const rsvp = await RSVP.findOne({ id: req.params.id })
-        if (!rsvp) return res.status(404).send();
-        res.status(201).send(rsvp);
+        if (!rsvp) return res.status(404).render("notfound", {user:req.user, pageTitle:"RSVme | 404"});
+        res.status(201).render("read_rsvp", {user:req.user, rsvp, pageTitle:rsvp.title});
     } catch (err) {
-        res.status(400).send();
+        res.status(400).render("notfound", {user:req.user, pageTitle:"RSVme | 404"});
     }
 });
 
 rsvpRouter.patch("/rsvp/:id", auth, async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = [
-        "location",
-        "time",
-        "date",
-        "description",
-        "title",
-        "author_phone",
-        "author_email",
         "author",
+        "author_email",
+        "author_phone",
+        "title",
+        "description",
+        "location",
+        "date",
+        "time",
     ];
 
     const valid = updates.every((update) => allowedUpdates.includes(update));
@@ -83,34 +89,35 @@ rsvpRouter.delete("/rsvp/:id", auth, async (req, res) => {
 });
 
 rsvpRouter.get("/rsvps", auth, async (req, res) => {
+    // todo: more optional filtering
+    // GET /rsvps?completed=true
     // const match = {};
     // if (req.query.completed) {
     //     match.completed = req.query.completed === "true";
     // }
 
-    // const sort = {};
-    // if (req.query.sortBy) {
-    //     const parts = req.query.sortBy.split(":");
-    //     sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
-    // }
-
-    // {
-    //     path: "rsvps",
-    //     match,
-    //     options:{
-    //         limit: parseInt(req.query.limit),
-    //         skip: parseInt(req.query.skip),
-    //         sort
-    //     }
-    // }
+    // GET /rsvps?sortBy=createdAt:desc
+    const sort = {};
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(":");
+        sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
+    }
 
     try {
         await req.user.populate({ //todo
             path: "rsvps",
+            //match
+            options:{
+                // GET /rsvps?sortBy=10&skip=20
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                sort
+            }
         }).execPopulate()
-        res.status(200).send(req.user.rsvps);
+        res.status(200).render("list_rsvp",{user: req.user, rsvps: req.user.rsvps, pageTitle:"RSVme | My RSVPs"});
     } catch (err) {
-        res.status(500).send(err);
+        console.log(err);
+        res.status(500).redirect("/notfound"); //bit of a hack
     }
 });
 

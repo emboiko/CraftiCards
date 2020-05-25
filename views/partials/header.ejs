@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/img/paper_airplane.png" type="image/x-icon">
+    <!-- todo: non-display font(s) -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title><%= pageTitle %></title>
+</head>
+
+<body>
+
+    <header>
+
+        <!-- todo: logo -->
+        <a href="/">Home</a>
+
+        <% if (!locals.minHeader) { %>
+
+            <% if (locals.user) { %>
+                <span class="user"><%= user.email %></span>
+                <form class="logout" action="/users/logout" method="POST">
+                    <button>
+                        Logout
+                    </button>
+                </form>
+                <a href="/rsvp">New RSVP</a>
+                <a href="/rsvps">My RSVPs</a>
+                <a href="/users/me">Account</a>
+            <% } else { %>
+                <a href="/users">Register</a>
+                <a href="/users/login">Login</a>
+            <% } %>
+
+        <% } %>
+
+
+        
+    </header>

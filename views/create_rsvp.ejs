@@ -1,0 +1,25 @@
+<%- include("partials/header") %>
+
+    <form class="frontmatter" action="/rsvp" method="POST">
+        <label for="author">*Author/Host</label>
+        <input type="text" name="author" value="<%=user.name%>">
+        <label for="author_email">*Email</label>
+        <input type="email" name="author_email" value="<%=user.email%>">
+        <label for="author_phone">Phone</label>
+        <input type="text" name="author_phone" value="<%=user.phone%>">
+        <br><br>
+        <label for="title">*Title</label>
+        <input type="text" name="title" id="title">
+        <label for="description">Description</label>
+        <textarea type="text" name="description"></textarea>
+        <label for="location">*Location</label>
+        <input type="text" name="location">
+        <label for="date">*Date</label>
+        <input type="text" name="date">
+        <label for="time">*Time</label>
+        <input type="text" name="time">
+        <button>Submit</button>
+
+    </form>
+
+<%- include("partials/footer") %>

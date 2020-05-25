@@ -7,8 +7,12 @@ const RSVP = require("./RSVP");
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
         trim: true,
+        default: "Anonymous"
+    },
+    phone: {
+        type: String,
+        trim: true
     },
     email: {
         type: String,

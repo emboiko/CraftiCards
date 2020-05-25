@@ -48,4 +48,8 @@ const cancelEmail = (email, name) => {
     });
 }
 
-module.exports = {welcomeEmail, cancelEmail, acceptEmail};
+const creationEmail = () => {
+    //todo
+}
+
+module.exports = {welcomeEmail, cancelEmail, acceptEmail, creationEmail};

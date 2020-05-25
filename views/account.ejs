@@ -1,0 +1,40 @@
+<%- include("partials/header") %>
+
+    <div class="account">
+
+        <%if (locals.error) {%>
+            <p><%=error%></p>
+        <%}%>
+
+        <form action="/users/me/avatar" method="POST" enctype="multipart/form-data">
+            <p>Avatar:</p>
+            <img class="avatar" src="/users/<%=user._id%>/avatar" alt="Avatar">
+            <input type="file" name="avatar">
+            <button>Update</button>
+        </form>
+
+        <form action="/users/me?_method=PATCH" method="POST">
+            
+            <p>Name:</p>
+            <p><%=locals.user.name%></p>
+            <input type="text" name="name" value="<%=user.name%>">
+            
+            <p>Phone:</p>
+            <p><%=locals.user.phone%></p>
+            <input type="text" name="phone" value="<%=user.phone%>">
+            
+            <p>Email:</p>
+            <p><%=locals.user.email%></p>
+            <input type="email" name="email" value="<%=user.email%>">
+
+            <button>Update</button>
+            
+        </form>
+        
+        <form action="/users/me?_method=DELETE" method="POST">
+            <button>Delete Account</button>
+        </form>
+
+    </div>
+
+<%- include("partials/footer") %>

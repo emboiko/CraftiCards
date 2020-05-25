@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
+const checkUser = require("../middleware/checkUser");
 const multer = require("multer");
 const sharp = require("sharp");
 const {welcomeEmail, cancelEmail} = require("../email/email");
@@ -20,14 +21,27 @@ const upload = multer({
     }
 });
 
+userRouter.get("/",  checkUser, (req, res) => {
+    res.render("index", {user: req.user, pageTitle:"RSVme"});
+});
+
+//////////////////////
+
+userRouter.get("/users/login", (req, res) => {
+    res.render("login", {pageTitle:"RSVme | Login", minHeader:true});
+});
+
 userRouter.post("/users/login", async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
+        res.cookie("access_token", token, {httpOnly:true});
+        res.status(200).redirect("/");
     } catch (err) {
-        console.log(err);
-        res.status(400).send({ "Error" : err.message });
+        res.status(400).render("login", {
+            error : "Unable to login. Check your credentials and try again.",
+            pageTitle : "RSVme | Login"
+        });
     }
 });
 
@@ -36,22 +50,31 @@ userRouter.post("/users/logout", auth, async (req, res) => {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token;
         });
+        res.clearCookie("access_token");
 
-        await req.user.save();
-        res.send();
+        await req.user.save();        
+        res.redirect("/");
     } catch (err) {
-        res.status(500).send();
+        res.status(500).render("notfound", {pageTitle:"RSVme | 404"});
     }
 });
 
 userRouter.post("/users/logoutAll", auth, async (req, res) => {
     try {
         req.user.tokens = [];
+        res.clearCookie("access_token");
+
         await req.user.save();
-        res.send();
+        res.redirect("/");
     } catch (err) {
-        res.status(500).send();
+        res.status(500).render("notfound", {pageTitle:"RSVme | 404"});
     }
+});
+
+//////////////////////
+
+userRouter.get("/users", (req, res) => {
+    res.render("register", {pageTitle:"RSVme", minHeader:true});
 });
 
 userRouter.post("/users", async (req, res) => {
@@ -60,29 +83,31 @@ userRouter.post("/users", async (req, res) => {
         await user.save();
         // welcomeEmail(user.email, user.name);
         const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
+        res.cookie("access_token", token, {httpOnly:true});
+
+        res.status(201).redirect("/");
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).render("register", {pageTitle:"RSVme", error: err.message});
     }
 });
 
 userRouter.get("/users/me", auth, async (req, res) => {
-    res.send(req.user);
+    res.render("account", {user: req.user, pageTitle:`RSVme | ${req.user.name}`});
 });
 
 userRouter.patch("/users/me", auth, async (req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["name", "email", "password", "age"];
+    const allowedUpdates = ["name", "email", "password", "phone", "avatar"];
     const valid = updates.every((update) => allowedUpdates.includes(update));
 
-    if (!valid) return res.status(400).send({ error: "Invalid Updates" });
+    if (!valid) return res.status(400).render("/users/me", {message: "Invalid Updates"});
 
     try {
         updates.forEach((update) => req.user[update] = req.body[update]);
         await req.user.save();
-        res.status(202).send(req.user);
+        res.status(202).redirect("/users/me");
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).render("account", {user:req.user, error: err.message, pageTitle:"RSVme | Account"});
     }
 });
 
@@ -90,11 +115,13 @@ userRouter.delete("/users/me", auth, async (req, res) => {
     try {
         await req.user.remove();
         // cancelEmail(req.user.email, req.user.name);
-        res.status(200).send();
+        res.status(200).send(); //todo
     } catch (err) {
-        res.status(500).send();
+        res.status(500).send(); //todo
     }
 });
+
+//////////////////////
 
 userRouter.post("/users/me/avatar", auth, upload.single("avatar"), async (req, res) => {
     const buffer = await sharp(req.file.buffer)
@@ -104,9 +131,9 @@ userRouter.post("/users/me/avatar", auth, upload.single("avatar"), async (req, r
 
     req.user.avatar = buffer;
     await req.user.save();
-    res.send();
+    res.redirect("/users/me");
 }, (err, req, res, next) => {
-    res.status(400).send({ error: err.message });
+    res.status(400).render("notfound", {pageTitle:"RSVme | 404"}); // todo
 });
 
 userRouter.get("/users/:id/avatar", async (req, res) => {
@@ -115,16 +142,16 @@ userRouter.get("/users/:id/avatar", async (req, res) => {
         if (!user || !user.avatar) throw new Error();
 
         res.set("Content-Type", "image/png");
-        res.status(200).send(user.avatar);
+        res.status(200).send(user.avatar); // todo
     } catch (err) {
-        res.status(404).send();
+        res.status(404).render("notfound", {pageTitle:"RSVme | 404"}); // todo
     }
 });
 
 userRouter.delete("/users/me/avatar", auth, async (req, res) => {
     req.user.avatar = undefined;
     await req.user.save();
-    res.status(200).send();
+    res.status(200).send(); // todo
 });
 
 module.exports = userRouter;

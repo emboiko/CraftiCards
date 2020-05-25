@@ -1,0 +1,13 @@
+<%- include("partials/header") %>
+
+<div class="rsvps">
+    <ul>
+
+        <% rsvps.forEach((rsvp) => { %>
+            <li> <a href="/rsvp/<%=rsvp.id%>"> <%=rsvp.title%> </a> </li>
+        <% }); %>
+
+    </ul>
+</div>
+
+<%- include("partials/footer") %>

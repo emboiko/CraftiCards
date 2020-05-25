@@ -1,0 +1,18 @@
+<%- include("partials/header") %>
+
+<div class="frontmatter">
+    <p>
+        Have an account already? <a href="/users/login">Login</a>
+    </p>
+    <form class="authForm" action="/users" method="POST">
+        <label for="name">Name</label>
+        <input type="name" name="name">
+        <label for="phone">Phone</label>
+        <input type="phone" name="phone">
+        <label for="email">*Email</label>
+        <input type="email" name="email">
+        <label for="password">*Password</label>
+        <input type="password" name="password">
+        <button>Submit</button>
+    </form>
+</div>

@@ -8,9 +8,14 @@
 
 Todo:
 
-- Delete RSVP after expiration
+- Delete RSVP after expiration optionally
 - Clean up status codes https://httpstatuses.com/
 - Sanitize Date/Time/Phone/Location
 - Geocode location
 - Prettier emails / register / delete account / createRSVP
-- Private RSVP accept via password => create password optionally in schema
+- Private RSVP accept via password/pin
+- notAuth() middleware => checkUser()
+- CSS
+- Password change form
+- About/Learn more
+- Guestlist

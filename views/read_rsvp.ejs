@@ -1,0 +1,39 @@
+<%- include("partials/header") %>
+
+    <div class="frontmatter">
+        <img class="qr-img" src="<%= rsvp.qr %>" alt="QR">
+        <p>
+            <%=rsvp.title%>
+        </p>
+        <p>
+            <%=rsvp.description%>
+        </p>
+        <p>
+            <%=rsvp.location%>
+        </p>
+        <p>
+            <%=rsvp.date%>
+        </p>
+        <p>
+            <%=rsvp.time%>
+        </p>
+        <p>
+            <%=rsvp.author%>
+        </p>
+        <p>
+            <%=rsvp.author_email%>
+        </p>
+        <p>
+            <%=rsvp.author_phone%>
+        </p>
+        <p>
+            <%=rsvp.num_guests%> Guests currently registered.
+        </p>
+        <p>
+            View the <a href="/rsvp/<%=rsvp.id%>/guests">guestlist</a>
+        </p>
+        <button class="btn accept">Accept</button>
+        <button class="btn decline">Decline</button>
+    </div>
+
+<%- include("partials/footer") %>
