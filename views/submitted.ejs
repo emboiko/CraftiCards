@@ -1,14 +1,17 @@
 <%- include("partials/header") %>
 
 
-<div class="submitted">
+<div id="home-box" class="frontmatter center-text noborder">
 
     <% if (locals.joined) { %>
         <div class="joined">
+            <img class="plane" src="/img/paper_airplane.png">
             <p>You've accepted an RSVP for <%=rsvp.title%></p>
+            <p>Check your email for more details.</p>
         </div>
-    <% } else { %>
-        <div class="declined">
+        <% } else { %>
+            <div class="declined">
+            <img class="plane" src="/img/paper_airplane.png">
             <p>Your RSVP for <%=rsvp.title%> been successfully declined.</p>
         </div>
     <% } %>

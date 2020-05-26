@@ -2,13 +2,17 @@
 
 <div class="register-success">
 
-    <% if (locals.user) { %>
-        <div class="registered">
-            <p>You've been successfully registered.</p>
-            <p><%=user.name%></p>
-            <p><%=user.email%></p>
-        </div>
-    <% } %>
+    <div class="frontmatter padded-box">
+    
+        <% if (locals.user) { %>
+            <div class="registered">
+                <h2 class="mbottom center-text">You've been successfully registered.</h2>
+                <p class="center-text"><%=user.name%></p>
+                <p class="center-text"><%=user.email%></p>
+            </div>
+        <% } %>
+
+    </div>
     
 </div>
 

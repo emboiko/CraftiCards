@@ -22,7 +22,7 @@ const upload = multer({
 });
 
 userRouter.get("/",  checkUser, (req, res) => {
-    res.render("index", {user: req.user, pageTitle:"RSVme", noHome:true});
+    res.render("index", {user: req.user, pageTitle:"RSVme | Home"});
 });
 
 //////////////////////
@@ -40,7 +40,8 @@ userRouter.post("/users/login", async (req, res) => {
     } catch (err) {
         res.status(400).render("login", {
             error : "Unable to login. Check your credentials and try again.",
-            pageTitle : "RSVme | Login"
+            pageTitle : "RSVme | Login",
+            minHeader:true
         });
     }
 });

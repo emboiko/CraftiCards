@@ -8,6 +8,7 @@ body {
     color: #202020;
     background-color: #F0F3F4;
     font-size: 1.1em;
+    font-family: "Montserrat";
 }
 
 .qr-img {
@@ -18,19 +19,68 @@ body {
 .favicon {
     width:100px;
     position: absolute;    
-    right: 1px;
-    /* top: 10px; */
+    right: 20px;
+}
+
+.plane {
+    width: 100px;
+    margin: 0 auto;
 }
 
 header {
-    text-align: center;
-    border: 2px solid #202020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+.home {
+    width:40px;
+    position: absolute;
+    left: 5px;
+}
+
+header a {
+    margin: 0 10px;
+    font-size: 1.2em;
+}
+
+.logout {
+    padding: 0;
+}
+
+.user-box {
+    position: absolute;
+    right: 5px;
+}
+
+.btn {
+    padding: 5px;
+    margin: 0;
+    border:2px solid #3498DB;
+    background-color: #F0F3F4;
+    color: #3498DB;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.btn:hover {
+    cursor: pointer;
+    color: #F0F3F4;
+    background-color: #3498DB;
 }
 
 a {
     color:#3498DB;
-    font-size: 1.2em;
     text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#learn-more{
+    margin: 5px 0;
 }
 
 .logout {
@@ -39,13 +89,22 @@ a {
 
 .frontmatter {
     position: relative;
-    width:450px;
-    /* height: 400px; */
-    margin: 150px auto 0 auto;
-    text-align: center;
+    margin: 50px auto 0 auto;
     border: 2px solid #202020;
     display:flex;
     flex-direction: column;
+}
+
+#home-box {
+    width:475px;
+}
+
+#box {
+    width: 800px;
+}
+
+.center-text{
+    text-align: center;
 }
 
 #RSV {
@@ -62,13 +121,28 @@ a {
 form {
     display: flex;
     flex-direction: column;
+    padding:20px;
+}
+
+form input {
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding: 5px;
+}
+
+form label {
+    margin-bottom: 5px;
+}
+
+.authForm {
+    font-size: 1.1em;
 }
 
 .about {
     width: 50vw;
     margin: 150px auto 0 auto;
     border: 2px solid #202020;
-    
+    padding: 15px;
 }
 
 .avatar {
@@ -77,4 +151,81 @@ form {
 
 .guestlist {
     display: none;
+}
+
+.error {
+    margin-top: 10px;
+    color:red;
+}
+
+.submit {
+    width: 30%;
+    margin: 0 auto;
+}
+
+.mbottom {
+    margin-bottom: 10px;
+}
+
+.mtop {
+    margin-top: 10px;
+}
+
+.rsvp-list-box {
+    padding: 15px;
+}
+
+.rsvp-list {
+    list-style: none;
+}
+
+.btn-guests {
+    padding: 5px;
+    width: 50%;
+    margin: 10px auto 0 auto;
+    font-size: 18px;
+    border:2px solid #3498DB;
+    background-color: #F0F3F4;
+    color: #3498DB;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.btn-guests:hover {
+    cursor: pointer;
+    color: #F0F3F4;
+    background-color: #3498DB;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+.padded-box {
+    padding:20px;
+}
+
+.aform button {
+    margin: 0;
+    width: 250px;
+}
+
+.delete {
+    background-color: #F0F3F4;
+    color: red;
+    border: 2px solid red;
+}
+
+.delete:hover {
+    color: #F0F3F4;
+    background-color: red;
+}
+
+.joined p {
+    padding: 10px;
+}
+
+.noborder {
+    border: none;
 }

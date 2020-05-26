@@ -1,12 +1,13 @@
 <%- include("partials/header") %>
 
-<div class="frontmatter">
-    <p>
+<div id="home-box" class="frontmatter">
+    <h2 class="center-text mbottom">Register</h2>
+    <p class="center-text">
         Have an account already? <a href="/users/login">Login</a>
     </p>
 
     <% if (locals.error) { %>
-        <p><%=error%></p>
+        <p class="error center-text"><%=error%></p>
     <% } %>
 
     <form class="authForm" action="/users" method="POST">
@@ -16,8 +17,8 @@
         <input type="phone" name="phone">
         <label for="email">*Email</label>
         <input type="email" name="email" required>
-        <label for="password">*Password</label required>
-        <input type="password" name="password">
-        <button>Submit</button>
+        <label for="password">*Password</label>
+        <input type="password" name="password" required>
+        <button class="btn submit">Submit</button>
     </form>
 </div>

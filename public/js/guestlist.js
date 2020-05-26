@@ -1,8 +1,8 @@
 let divShowing = false;
 
-document.querySelector(".guests").addEventListener("click", (e) => {
+document.querySelector(".btn-guests").addEventListener("click", (e) => {
     divShowing = !divShowing;
-    const div = document.querySelector(".guestlist")
+    const div = document.querySelector(".guestlist");
 
     if (divShowing) {
         div.style.display = "inline-block";

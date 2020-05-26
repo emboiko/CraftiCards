@@ -123,16 +123,19 @@ rsvpRouter.get("/rsvps", auth, async (req, res) => {
 
 rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
     try {
-        const rsvp = await RSVP.findOne({ id: req.params.id })
+        const rsvp = await RSVP.findOne({ id: req.params.id });
         if (!rsvp) return res.status(404).send();
 
-        const invalid = rsvp.joined.some((party) => {
-            return party.email === req.body.email;
-        });
-
-        if (invalid) {
-            return res.status(400).send({ "Error": "Already Registered" });
-        }
+        const invalid = rsvp.joined.some((party) => party.email === req.body.email);
+        if (invalid) return res.status(400).render(
+            `read_rsvp`,
+            { 
+                user:req.user,
+                rsvp,
+                pageTitle: `RSVme | ${rsvp.title}`,
+                "error": "Email is already registered with this RSVP"
+             }
+        );
 
         let joined;
 
@@ -143,16 +146,16 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
             joined = true;
 
             //todo: probably include the party name, QR + RSVP ID in the email, too.
-            acceptEmail(
-                req.body.email,
-                rsvp.author_email,
-                rsvp.author_phone,
-                rsvp.title,
-                rsvp.description,
-                rsvp.location,
-                rsvp.date,
-                rsvp.time,
-            );
+            // acceptEmail(
+            //     req.body.email,
+            //     rsvp.author_email,
+            //     rsvp.author_phone,
+            //     rsvp.title,
+            //     rsvp.description,
+            //     rsvp.location,
+            //     rsvp.date,
+            //     rsvp.time,
+            // );
         } else {
             rsvp.declined = rsvp.declined.concat({ party: req.body.party, email: req.body.email });
             joined = false;

@@ -1,13 +1,20 @@
 <%- include("partials/header") %>
 
-<div class="rsvps">
-    <ul>
+<div id="box" class="frontmatter">
 
-        <% rsvps.forEach((rsvp) => { %>
-            <li> <a href="/rsvp/<%=rsvp.id%>"> <%=rsvp.title%> </a> </li>
-        <% }); %>
+    <h2 class="display center-text">My RSVPs</h2>
+    <p class="center-text">RSVPs you have created will be listed here.</p>
+    
+    <div class="rsvp-list-box">
 
-    </ul>
+        <ul class="rsvp-list">
+            <% rsvps.forEach((rsvp) => { %>
+                <li> <a href="/rsvp/<%=rsvp.id%>"> <%=rsvp.title%> </a> </li>
+            <% }); %>
+    
+        </ul>
+    </div>
+
 </div>
 
 <%- include("partials/footer") %>

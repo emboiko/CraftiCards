@@ -11,14 +11,18 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, ratione? Consequatur aperiam atque praesentium soluta exercitationem harum, facilis maxime laboriosam, nostrum animi alias nulla? Aut non consequuntur iure tempora quibusdam ut sapiente quod possimus neque pariatur. Necessitatibus unde numquam qui a ipsa et laboriosam ipsum praesentium, vel, atque, illum placeat.
         </p>
 
-
-        <% if (locals.user) { %>
-            <a href="/rsvp">
-            <% } else { %>
-            <a href="/users">
-        <% } %>
-            Get Started
+        <button>
+            <a
+            <% if (locals.user) { %>
+                href="/rsvp">
+                <% } else { %>
+                href="/users">
+            <% } %>
+                Get Started
             </a>
+
+        </button>
+
 
 
     </div>

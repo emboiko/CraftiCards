@@ -1,74 +1,65 @@
 <%- include("partials/header") %>
 
-    <div class="frontmatter">
+    <div id="box" class="frontmatter">
         <img class="qr-img" src="<%= rsvp.qr %>" alt="QR">
-        <p>
+        <p class="center-text">
             <%=rsvp.title%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.description%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.location%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.date%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.time%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.author%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.author_email%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.author_phone%>
         </p>
-        <p>
+        <p class="center-text">
             <%=rsvp.num_guests%> Guests currently registered.
         </p>
-        <button class="btn guests">View the guestlist</button>
+        <button class="btn-guests">Show the guestlist</button>
 
         <div class="guestlist">
-
-            derp
-
-            <ul>
-            
-                <% locals.rsvp.joined.forEach((party) => { %>
+            <ul class="rsvp-list center-text">
+                <% rsvp.joined.forEach((party) => { %>
             
                     <li><%=party.party%></li>
             
                 <% }); %>
-        
             </ul>
-        
         </div>
     
-        
         <form action="/rsvp/<%=rsvp.id%>" method="POST">
+            <h2 class="center-text">RSVP</h2>
             <label for="party">*Name</label>
-            <input type="text" name="party" placeholder="John Doe" required>
+            <input type="text" name="party" value="<%=locals.user ? user.name : ''%>" placeholder="John Doe" required>
             <label for="email">*Email</label>
-            <input type="email" name="email" placeholder="jdoe@gmail.com" required>
+            <input type="email" name="email" value="<%=locals.user ? user.email : ''%>" placeholder="jdoe@gmail.com" required>
             <label for="num_guests">Number of guests attending</label> 
             <input type="number" name="num_guests" min="1" value="1" required>
-            <input type="submit" name="accepted" value="Accept">
-            <input type="submit" name="accepted" value="Decline">
+
+            <% if (locals.error) { %>
+                <p class="center-text mbottom error"><%=error%></p>
+            <% } %>
+
+            <input class="btn submit mbottom mtop" type="submit" name="accepted" value="Accept">
+            <input class="btn submit delete" type="submit" name="accepted" value="Decline">
         </form>
-
-
-<!--         
-        <form action="/rsvp/<%=rsvp.id%>" method="POST">
-            <button class="btn decline">Decline</button>
-        </form> -->
         
     </div>
 
-
 <script src="/js/guestlist.js"></script>
-
 
 <%- include("partials/footer") %>

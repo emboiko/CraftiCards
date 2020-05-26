@@ -1,11 +1,5 @@
 # RSVme
 
-- [mongoose](https://www.npmjs.com/package/mongoose)
-- [express.js](https://www.npmjs.com/package/express)
-- [validator.js](https://www.npmjs.com/package/validator)
-- [qrcode](https://www.npmjs.com/package/qrcode)
-- [@sendgrid/mail](https://www.npmjs.com/package/@sendgrid/mail)
-
 Todo:
 
 - Image upload for RSVP
@@ -17,11 +11,15 @@ Todo:
 - Private RSVP accept via password/pin
 - notAuth() middleware => checkUser()
 - CSS
+- wrap long text 
 - About/Learn more
 - Guestlist
 - Readme
-- Support/help/contact
-- Proof-read
+- Support/help/contact/footer
 - Clean up status codes https://httpstatuses.com/
 - Password change form
 - Split name => First/last
+- middleware/rendering check
+- preview RSVP
+- account page => Non-authored RSVPs 
+- tests*
