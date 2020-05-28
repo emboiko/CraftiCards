@@ -27,14 +27,14 @@
 #### Todo:
 
 {
-- Image upload for RSVP
 - Delete RSVP after expiration optionally
 - Sanitize Date/Time/Phone/Location
 - Split name => First/last
 - Geocode location
-- Prettier emails / register / delete account / createRSVP
+- Prettier emails / register / delete account / createRSVP => uncomment calls
 - Private RSVP accept via password/pin
- 
+- Owner's private guestlist / total num guests => link in list_rsvp.ejs
+
 }
 
 {
@@ -46,12 +46,10 @@
 {
 - mobile CSS & breakpoints
 - middleware/rendering check
-- notAuth() middleware => checkUser()
 - page titles / clean up render() calls
 - Clean up status codes https://httpstatuses.com/
-- About/Learn more
 - Support/help/contact/footer
-- account page => Non-authored RSVPs 
+- Non-authored RSVPs joined
 - tests*
 
 }

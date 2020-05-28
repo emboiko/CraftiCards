@@ -1,10 +1,11 @@
 <%- include("partials/header") %>
 
     <div id="box" class="frontmatter padded-box read">
-        <p class="center-text">
+        <h2 class="center-text mbottom">
             <%=rsvp.title%>
-        </p>
-        <p class="center-text">
+        </h2>
+        <img class="rsvp-img" src="/rsvp/<%=rsvp.id%>/img" alt="rsvp-image">
+        <p class="center-text mbottom">
             <%=rsvp.description%>
         </p>
         <p class="center-text">
@@ -26,7 +27,7 @@
             <%=rsvp.author_phone%>
         </p>
         <p class="center-text">
-            <%=rsvp.num_guests%> Guests currently registered.
+            <%=rsvp.joined.length%> parties registered | <%=rsvp.num_guests%> total guests.
         </p>
         
         <button class="btn submit mtop btn-guestlist">Show the guest-list</button>
@@ -40,7 +41,7 @@
         <hr class="mtop">
         <form action="/rsvp/<%=rsvp.id%>" method="POST">
             <h2 class="center-text">RSVP</h2>
-            <label for="party">*Name</label>
+            <label for="party">*Party Name</label>
             <input type="text" name="party" value="<%=locals.user ? user.name : ''%>" placeholder="John Doe" required>
             <label for="email">*Email</label>
             <input type="email" name="email" value="<%=locals.user ? user.email : ''%>" placeholder="jdoe@gmail.com" required>

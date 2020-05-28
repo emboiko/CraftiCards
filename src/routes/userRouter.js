@@ -1,25 +1,13 @@
 const express = require("express");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
+const noAuth = require("../middleware/noAuth");
 const checkUser = require("../middleware/checkUser");
-const multer = require("multer");
+const upload = require("../middleware/multer");
 const sharp = require("sharp");
 const {welcomeEmail, cancelEmail} = require("../email/email");
 
 const userRouter = new express.Router();
-
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/.(jpg|jpeg|png)$/)) {
-            cb(new Error("Please upload an image (jpg/png)"));
-        }
-
-        cb(undefined, true);
-    }
-});
 
 userRouter.get("/",  checkUser, (req, res) => {
     res.render("index", {user: req.user, pageTitle:"RSVme | Home"});
@@ -27,11 +15,11 @@ userRouter.get("/",  checkUser, (req, res) => {
 
 //////////////////////
 
-userRouter.get("/users/login", (req, res) => {
+userRouter.get("/users/login", noAuth, (req, res) => {
     res.render("login", {pageTitle:"RSVme | Login", minHeader:true});
 });
 
-userRouter.post("/users/login", async (req, res) => {
+userRouter.post("/users/login", noAuth, async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
@@ -74,11 +62,11 @@ userRouter.post("/users/logoutAll", auth, async (req, res) => {
 
 //////////////////////
 
-userRouter.get("/users", (req, res) => {
+userRouter.get("/users", noAuth, (req, res) => {
     res.render("register", {pageTitle:"RSVme", minHeader:true});
 });
 
-userRouter.post("/users", async (req, res) => {
+userRouter.post("/users", noAuth, async (req, res) => {
     const user = new User(req.body);
     try {
         await user.save();

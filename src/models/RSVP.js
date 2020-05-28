@@ -40,6 +40,9 @@ const RSVP_Schema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    img: {
+        type: Buffer
+    },
     qr: {
         type: String,
         required: true

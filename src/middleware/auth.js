@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const auth = async (req, res, next) => {
-
     try {
         // I still haven't decided how I want to do this. 
         // const token = req.header("Authorization").replace("Bearer ", "");
@@ -18,7 +17,6 @@ const auth = async (req, res, next) => {
     } catch (err) {
         res.status(401).redirect("/users/login");
     }
-
 }
 
 module.exports = auth;

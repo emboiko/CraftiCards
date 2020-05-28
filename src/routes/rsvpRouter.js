@@ -1,8 +1,10 @@
 const express = require("express");
 const QRcode = require("qrcode");
 const mongoose = require("mongoose");
+const sharp = require("sharp");
 const auth = require("../middleware/auth");
 const checkUser = require("../middleware/checkUser");
+const upload = require("../middleware/multer");
 const RSVP = require("../models/RSVP");
 const {acceptEmail, creationEmail} = require("../email/email");
 
@@ -16,15 +18,20 @@ rsvpRouter.get("/rsvp", auth, (req, res) => {
     res.render("create_rsvp", {user: req.user, pageTitle:"RSVme | New"})
 });
 
-rsvpRouter.post("/rsvp", auth, async (req, res) => {
+rsvpRouter.post("/rsvp", auth, upload.single("rsvp-img"), async (req, res) => {
     const id = new mongoose.Types.ObjectId();
     const qr = await QRcode.toDataURL(`${process.env.URL}/rsvp/${id}`);
+    const buffer = await sharp(req.file.buffer)
+    .resize({ width: 500, height: 500 })
+    .png()
+    .toBuffer();
 
     const rsvp = new RSVP({
         ...req.body,
         qr,
         id,
-        owner:req.user._id
+        owner:req.user._id,
+        img:buffer
     });
 
     try {
@@ -57,6 +64,17 @@ rsvpRouter.get("/rsvp/:id/qr", checkUser, async (req, res) => {
     }
 });
 
+rsvpRouter.get("/rsvp/:id/img", checkUser, async (req, res) => {
+    try {
+        const rsvp = await RSVP.findOne({ id: req.params.id })
+        if (!rsvp) return res.status(404).render("notfound", {user:req.user, pageTitle:"RSVme | 404"});
+        res.set("Content-Type", "image/png");
+        res.status(201).send(rsvp.img);
+    } catch (err) {
+        res.status(400).render("notfound", {user:req.user, pageTitle:"RSVme | 404"});
+    }
+});
+
 rsvpRouter.get("/rsvp/:id/edit", auth, async (req, res) => {
     try {
         const rsvp = await RSVP.findOne({ id: req.params.id, owner:req.user._id });
@@ -72,7 +90,7 @@ rsvpRouter.get("/rsvp/:id/edit", auth, async (req, res) => {
     }
 });
 
-rsvpRouter.patch("/rsvp/:id", auth, async (req, res) => {
+rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = [
         "author",
@@ -83,6 +101,7 @@ rsvpRouter.patch("/rsvp/:id", auth, async (req, res) => {
         "location",
         "date",
         "time",
+        "rsvp-img"
     ];
 
     const valid = updates.every((update) => allowedUpdates.includes(update));
@@ -94,9 +113,20 @@ rsvpRouter.patch("/rsvp/:id", auth, async (req, res) => {
 
         updates.forEach((update) => rsvp[update] = req.body[update]);
 
+        let buffer;
+        if (req.file) {
+            buffer = await sharp(req.file.buffer)
+            .resize({ width: 500, height: 500 })
+            .png()
+            .toBuffer();
+
+            rsvp.img = buffer;
+        }
+
         await rsvp.save();
         res.status(202).redirect(`/rsvp/${rsvp.id}`);
     } catch (err) {
+        console.log(err);
         res.status(400).render("notfound", {user: req.user, pageTitle: "RSVme | 404"});
     }
 
@@ -156,7 +186,6 @@ rsvpRouter.get("/rsvps", auth, async (req, res) => {
         }).execPopulate()
         res.status(200).render("list_rsvp",{user: req.user, rsvps: req.user.rsvps, pageTitle:"RSVme | My RSVPs"});
     } catch (err) {
-        console.log(err);
         res.status(500).render("notfound", {pageTitle:"RSVme | 404"});
     }
 });
@@ -212,7 +241,6 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
             }
         );
     } catch (err) {
-        console.log(err);
         res.status(400).render("notfound", {pageTitle:"RSVme | 404"});
     }
 });
