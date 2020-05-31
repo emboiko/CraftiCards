@@ -6,32 +6,29 @@
     <img class="icon mbottom" src="/img/paper_airplane.png" alt="paper_airplane">
 
     <% if (!rsvps.length) { %>
-        <p class="center-text">RSVPs you have created will be listed here.</p>
-        <p class="center-text mtop">
-            Create a <a href="/rsvp">new RSVP</a>
-        </p>
+    <p class="center-text">RSVPs you have created will be listed here.</p>
+    <p class="center-text mtop">
+        Create a <a href="/rsvp">new RSVP</a>
+    </p>
     <% } %>
 
     <div class="rsvp-list-box">
 
         <ul class="rsvp-list">
             <% rsvps.forEach((rsvp) => { %>
-                <hr>
-                <li> 
-                    <a class="rsvp-list-title" href="/rsvp/<%=rsvp.id%>"> <%=rsvp.title%> </a> 
-                    <div>
-                        <p></p>
-                    </div>
-                    <div class="rsvp-list-actions">
-                        <a href="/rsvp/<%=rsvp.id%>/qr" target="_blank">QR</a>
-                        |
-                        <a href="/rsvp/<%=rsvp.id%>/edit">Edit</a>
-                        |
-                        <a href="/rsvp/<%=rsvp.id%>/delete">Delete</a> 
-                    </div>
-                </li>
+            <hr>
+            <li>
+                <a class="rsvp-list-title" href="/rsvp/<%=rsvp.id%>"> <%=rsvp.title%> </a>
+                <div class="rsvp-list-actions">
+                    <a href="/rsvp/<%=rsvp.id%>/qr" target="_blank">QR</a>
+                    |
+                    <a href="/rsvp/<%=rsvp.id%>/edit">Edit</a>
+                    |
+                    <a href="/rsvp/<%=rsvp.id%>/delete">Delete</a>
+                </div>
+            </li>
             <% }); %>
-    
+
         </ul>
     </div>
 

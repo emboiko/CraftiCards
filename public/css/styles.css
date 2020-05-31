@@ -216,7 +216,7 @@ form label {
 
 .submit {
     width: 200px;
-    margin: 0 auto;
+    margin: 10px auto 0 auto;
 }
 
 .mbottom {
@@ -255,10 +255,6 @@ textarea {
     height: 100px;
 }
 
-.padded-box {
-    padding:20px;
-}
-
 .aform button {
     width: 200px;
 }
@@ -293,10 +289,6 @@ textarea {
 
 .noborder {
     border: none;
-}
-
-.cancel {
-    width: 100px;
 }
 
 /*******************************************************/
@@ -387,6 +379,26 @@ textarea {
     .rsvp-img-upload {
         width: 66%;
         margin-left: 55px;
+    }
+
+    .rsvp-list li {
+        flex-direction: column;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .rsvp-list li a {
+        width: 300px;
+        text-align: center;
+    }
+    
+    .rsvp-list-actions {
+        margin-top: 10px;
+        width: 200px;
+    }
+
+    #qr {
+        margin-top: 20vh;
     }
 
 }

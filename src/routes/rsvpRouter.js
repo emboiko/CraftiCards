@@ -11,11 +11,11 @@ const { acceptEmail, creationEmail } = require("../email/email");
 const rsvpRouter = new express.Router();
 
 rsvpRouter.get("/about", checkUser, (req, res) => {
-    res.render("about", { user: req.user, pageTitle: "RSVme | About" });
+    res.status(200).render("about", { user: req.user, pageTitle: "RSVme | About" });
 });
 
 rsvpRouter.get("/rsvp", auth, (req, res) => {
-    res.render("create_rsvp", { user: req.user, pageTitle: "RSVme | New" });
+    res.status(200).render("create_rsvp", { user: req.user, pageTitle: "RSVme | New RSVP" });
 });
 
 rsvpRouter.post("/rsvp", auth, upload.single("rsvp-img"), async (req, res) => {
@@ -42,9 +42,9 @@ rsvpRouter.post("/rsvp", auth, upload.single("rsvp-img"), async (req, res) => {
         //creationEmail() //todo
         res.status(201).redirect(`/rsvp/${id}`);
     } catch (err) {
-        res.status(404).render("create_rsvp", {
+        res.status(400).render("create_rsvp", {
             user: req.user,
-            pageTitle: "RSVme | New",
+            pageTitle: "RSVme | New RSVP",
             error: err.message
         });
     }
@@ -58,9 +58,9 @@ rsvpRouter.get("/rsvp/:id", checkUser, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        res.status(201).render("read_rsvp", {
+        res.status(200).render("read_rsvp", {
             user: req.user, rsvp,
-            pageTitle: rsvp.title
+            pageTitle: `RSVme | ${rsvp.title}`
         });
     } catch (err) {
         res.status(400).render("notfound", {
@@ -78,7 +78,7 @@ rsvpRouter.get("/rsvp/:id/qr", checkUser, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        res.status(201).render("qr", {
+        res.status(200).render("qr", {
             user: req.user,
             rsvp,
             pageTitle: `RSVme | ${rsvp.title}`
@@ -100,7 +100,7 @@ rsvpRouter.get("/rsvp/:id/img", checkUser, async (req, res) => {
         });
 
         res.set("Content-Type", "image/png");
-        res.status(201).send(rsvp.img);
+        res.status(200).send(rsvp.img);
     } catch (err) {
         res.status(400).render("notfound", {
             user: req.user,
@@ -117,7 +117,7 @@ rsvpRouter.get("/rsvp/:id/edit", auth, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        res.status(202).render("edit_rsvp", {
+        res.status(200).render("edit_rsvp", {
             user: req.user,
             rsvp,
             pageTitle: `RSVme | Edit ${rsvp.title}`
@@ -174,7 +174,6 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
         await rsvp.save();
         res.status(202).redirect(`/rsvp/${rsvp.id}`);
     } catch (err) {
-        console.log(err);
         res.status(400).render("notfound", {
             user: req.user,
             pageTitle: "RSVme | 404"
@@ -191,7 +190,7 @@ rsvpRouter.get("/rsvp/:id/delete", auth, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        res.status(202).render("delete_rsvp", {
+        res.status(200).render("delete_rsvp", {
             user: req.user,
             rsvp,
             pageTitle: `RSVme | Delete ${rsvp.title}`
@@ -211,9 +210,12 @@ rsvpRouter.delete("/rsvp/:id", auth, async (req, res) => {
             owner: req.user._id
         });
 
-        if (!rsvp) return res.status(404).send();
+        if (!rsvp) return res.status(404).render("notfound", {
+            user: req.user,
+            pageTitle: "RSVme | 404"
+        });
 
-        res.status(200).render("rsvpDeleteSuccess", {
+        res.status(202).render("rsvpDeleteSuccess", {
             user: req.user,
             pageTitle: "RSVme"
         });
@@ -257,7 +259,7 @@ rsvpRouter.get("/rsvps", auth, async (req, res) => {
             pageTitle: "RSVme | My RSVPs"
         });
     } catch (err) {
-        res.status(500).render("notfound", {
+        res.status(400).render("notfound", {
             user: req.user,
             pageTitle: "RSVme | 404"
         });
@@ -267,7 +269,10 @@ rsvpRouter.get("/rsvps", auth, async (req, res) => {
 rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
     try {
         const rsvp = await RSVP.findOne({ id: req.params.id });
-        if (!rsvp) return res.status(404).send();
+        if (!rsvp) return res.status(404).render("notfound", {
+            user: req.user,
+            pageTitle: "RSVme | 404"
+        });
 
         const invalid = rsvp.joined.some((party) => party.email === req.body.email);
         if (invalid) return res.status(400).render("read_rsvp", {
@@ -286,7 +291,6 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
                 party: req.body.party,
                 email: req.body.email
             });
-
             joined = true;
 
             //todo: probably include the party name, QR + RSVP ID in the email, too.

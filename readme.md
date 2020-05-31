@@ -26,7 +26,6 @@
 
 #### Todo:
 
-{
 - Delete RSVP after expiration optionally
 - Sanitize Date/Time/Phone/Location
 - Split name => First/last
@@ -34,21 +33,13 @@
 - Prettier emails / register / delete account / createRSVP => uncomment calls
 - Private RSVP accept via password/pin
 - Owner's private guestlist / total num guests => link in list_rsvp.ejs
-
-}
-
-{
 - Password change form
 - Password reset email
-
-}
-
-{
-- mobile CSS & breakpoints
-- page titles / clean up render() calls
-- Clean up status codes https://httpstatuses.com/
 - Support/help/contact/footer
 - Non-authored RSVPs joined
+- Templates
+- Preview RSVP
+- token lifespan
 - tests*
-
-}
+- error handlers/messages/automation*
+- timeout*
