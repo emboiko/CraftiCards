@@ -45,7 +45,6 @@
 
 {
 - mobile CSS & breakpoints
-- middleware/rendering check
 - page titles / clean up render() calls
 - Clean up status codes https://httpstatuses.com/
 - Support/help/contact/footer

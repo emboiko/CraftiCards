@@ -6,15 +6,21 @@
             <p class="error center-text mtop"><%=error%></p>
         <%}%>
 
+        <form class="logout mid center-text mtop" action="/users/logout" method="POST">
+            <button class="btn mbottom">
+                Logout
+            </button>
+        </form>
+
         <form class="aform" action="/users/me/avatar" method="POST" enctype="multipart/form-data">
-            <input class="finput" type="file" name="avatar">
+            <input class="finput mtop" type="file" name="avatar">
             <% if (user.avatar) { %>
                 <img class="avatar" src="/users/<%=user._id%>/avatar" alt="Avatar">
             <% } %>
             <button class="btn submit mtop">Upload Avatar</button>
         </form>
 
-        <form action="/users/me?_method=PATCH" method="POST">
+        <form class="user-info" action="/users/me?_method=PATCH" method="POST">
             
             <p>*Name:</p>
             <p><%=locals.user.name%></p>
@@ -32,7 +38,7 @@
             
         </form>
         
-        <a class="error mid center-text mbottom" href="/users/me/delete">Delete Account</a>
+        <a class="error mid center-text mtop" href="/users/me/delete">Delete Account</a>
 
     </div>
 
