@@ -32,7 +32,10 @@
         <%=rsvp.joined.length%> parties registered | <%=rsvp.num_guests%> total guests.
     </p>
 
-    <button class="btn submit mtop btn-guestlist">Show the guest-list</button>
+    <% if (rsvp.joined.length) { %>
+        <button class="btn submit mtop btn-guestlist">Show the guest-list</button>
+    <% } %>
+
     <div class="guestlist">
         <ul class="partylist center-text">
             <% rsvp.joined.forEach((party) => { %>
@@ -44,12 +47,12 @@
     <h2 class="center-text mtop">RSVP</h2>
     <form action="/rsvp/<%=rsvp.id%>" method="POST">
         <label for="party">*Party Name</label>
-        <input type="text" name="party" value="<%=locals.user ? user.name : ''%>" placeholder="John Doe" required>
+        <input type="text" name="party" value="<%=locals.user ? user.first_name + ' ' + user.last_name : ''%>" placeholder="John Doe" required>
         <label for="email">*Email</label>
         <input type="email" name="email" value="<%=locals.user ? user.email : ''%>" placeholder="jdoe@gmail.com"
             required>
-        <label for="num_guests">Number of guests in party</label>
-        <input type="number" name="num_guests" min="1" value="1" required>
+        <label for="party_size">Number of guests in party</label>
+        <input type="number" name="party_size" min="1" value="1" required>
 
         <% if (locals.error) { %>
         <p class="center-text mbottom error"><%=error%></p>

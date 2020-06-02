@@ -70,6 +70,28 @@ rsvpRouter.get("/rsvp/:id", checkUser, async (req, res) => {
     }
 });
 
+rsvpRouter.get("/rsvp/:id/joined", auth, async (req, res) => {
+    try {
+        const rsvp = await RSVP.findOne({ id: req.params.id, owner: req.user._id });
+        if (!rsvp) return res.status(404).render("notfound", {
+            user: req.user,
+            pageTitle: "RSVme | 404"
+        });
+
+        res.status(200).render("read_rsvp_guests", {
+            user: req.user,
+            rsvp,
+            pageTitle: "RSVme | Guest-list"
+        });
+
+    } catch (err) {
+        res.status(400).render("notfound", {
+            user: req.user,
+            pageTitle: "RSVme | 404"
+        });
+    }
+});
+
 rsvpRouter.get("/rsvp/:id/qr", checkUser, async (req, res) => {
     try {
         const rsvp = await RSVP.findOne({ id: req.params.id })
@@ -286,9 +308,10 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
 
         //todo: check if we're already declined and remove from declined
         if (req.body.accepted === "Accept") {
-            rsvp.num_guests += parseInt(req.body.num_guests);
+            rsvp.num_guests += parseInt(req.body.party_size);
             rsvp.joined = rsvp.joined.concat({
                 party: req.body.party,
+                party_size: req.body.party_size,
                 email: req.body.email
             });
             joined = true;

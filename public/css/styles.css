@@ -129,7 +129,7 @@ a:hover {
 }
 
 #box {
-    width: 800px;
+    width: 900px;
 }
 
 .center-text{
@@ -251,12 +251,12 @@ form label {
     font-size: 1.2em;
 }
 
-.rsvp-list li a {
-    width: 625px;
+.rsvp-list-title {
+    width: 425px;
 }
 
 .rsvp-list-actions {
-    width: 200px;
+    width: 325px;
 }
 
 textarea {
@@ -298,6 +298,16 @@ textarea {
 
 .noborder {
     border: none;
+}
+
+.dg {
+    min-width: 290px;
+    display: inline-block;
+    text-align: center;
+}
+
+.dg-header {
+    margin: 20px 0;
 }
 
 /*******************************************************/

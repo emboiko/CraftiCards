@@ -1,0 +1,36 @@
+<%- include("partials/header") %>
+
+<div id="box" class="frontmatter">
+
+    <h1 class="mbottom center-text">Guest-List</h1>
+    <h2 class="mbottom center-text"><a href="/rsvp/<%=rsvp.id%>"><%=rsvp.title%></a></h2>
+
+    <hr>
+
+    <h4 class="mtop mbottom center-text"><%=rsvp.location%></h4>
+    <h4 class="mbottom center-text"><%=rsvp.date%></h4>
+    <h4 class="mbottom center-text"><%=rsvp.time%></h4>
+    
+    <h4 class="mtop mbottom center-text">Total guests attending: <%=rsvp.num_guests%></h4>
+    
+    <div class="dg-header">
+        <h4 class="dg">Party Name</h4>
+        <h4 class="dg"># Guests in party</h4>
+        <h4 class="dg">Email</h4>
+    </div>
+
+    <% rsvp.joined.forEach((party) => { %>
+
+        <div class="dg-party mbottom">
+            <p class="dg"><%=party.party%></p>
+            <p class="dg"><%=party.party_size%></p>
+            <p class="dg"><%=party.email%></p>
+        </div>
+
+    <% }); %>
+
+
+</div>
+
+
+<%- include("partials/footer") %>

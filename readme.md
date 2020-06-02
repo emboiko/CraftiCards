@@ -30,13 +30,13 @@
 - Geocode location
 - Prettier emails / register / delete account / createRSVP => uncomment calls
 - Private RSVP accept via password/pin
-- Owner's private guestlist / total num guests => link in list_rsvp.ejs
 - Password change form
 - Password reset email
 - Support/help/contact/footer
 - Non-authored RSVPs joined
 - Templates
 - Preview RSVP
-- token lifespan
-- tests*
-- error handlers/messages*
+- Token lifespan
+- Tests
+- User friendly errors / more robust handlers
+- Logout/logoutAll
