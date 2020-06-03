@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         validate(phone) {
-            if ((phone.length !== 11) || (!/[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(phone))) {
+            console.log(phone.length);
+            if ((phone.length !== 12) || (!/[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(phone))) {
                 throw new Error("Invalid Phone");
             }
         }

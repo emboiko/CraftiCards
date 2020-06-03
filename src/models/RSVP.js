@@ -16,8 +16,8 @@ const RSVP_Schema = new mongoose.Schema({
     author_phone: {
         type: String,
         trim: true,
-        validate(phone) {
-            if ((phone.length !== 11) || (!/[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(phone))) {
+        validate(author_phone) {
+            if ((author_phone.length !== 12) || (!/[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(author_phone))) {
                 throw new Error("Invalid Phone");
             }
         }
