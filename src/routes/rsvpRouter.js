@@ -163,6 +163,7 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
         "location",
         "date",
         "time",
+        "end_time",
         "rsvp-img"
     ];
 

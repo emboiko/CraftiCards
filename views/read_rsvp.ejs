@@ -16,9 +16,16 @@
     <p class="center-text">
         <%=rsvp.date%>
     </p>
+
     <p class="center-text">
         <%- new Date('1970-01-01T' + rsvp.time + 'Z').toLocaleTimeString({}, {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}); %>
+        <% if (rsvp.end_time) { %>
+                - 
+                <%- new Date('1970-01-01T' + rsvp.end_time + 'Z').toLocaleTimeString({}, {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}); %>
+        <% } %>
     </p>
+    
+
     <p class="center-text">
         <%=rsvp.author%>
     </p>

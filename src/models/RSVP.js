@@ -44,7 +44,23 @@ const RSVP_Schema = new mongoose.Schema({
     time: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        validate(time) {
+            if (!/\d{2}:\d{2}/.test(time)) {
+                throw new Error("Invalid Start Time");
+            }
+        }
+    },
+    end_time: {
+        type: String,
+        trim: true,
+        validate(time) {
+            if (!time) return;
+            
+            if (!/\d{2}:\d{2}/.test(time)) {
+                throw new Error("Invalid End Time");
+            }
+        }
     },
     img: {
         type: Buffer
