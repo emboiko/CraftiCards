@@ -21,10 +21,12 @@
 
     <% rsvp.joined.forEach((party) => { %>
 
-        <div class="dg-party mbottom">
+        <hr>
+
+        <div class="dg-party mtop mbottom">
             <p class="dg"><%=party.party%></p>
-            <p class="dg"><%=party.party_size%></p>
-            <p class="dg"><%=party.email%></p>
+            <p class="dg dg-party-size"><%=party.party_size%></p>
+            <p class="dg"><a href="mailto:<%=party.email%>"><%=party.email%></a></p>
         </div>
 
     <% }); %>

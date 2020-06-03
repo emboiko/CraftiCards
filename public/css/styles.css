@@ -138,7 +138,7 @@ a:hover {
 
 .rsvp-img-upload {
     width: 50%;
-    margin-left: 275px;
+    margin-left: 325px;
 }
 
 .rsvp-img {
@@ -252,7 +252,7 @@ form label {
 }
 
 .rsvp-list-title {
-    width: 425px;
+    width: 525px;
 }
 
 .rsvp-list-actions {
@@ -413,13 +413,26 @@ textarea {
     
     .rsvp-list-actions {
         margin-top: 10px;
-        width: 200px;
+        width: 320px;
+        text-align: center;
     }
 
     #qr {
         margin-top: 20vh;
     }
 
+    .dg-header {
+        display: none;
+    }
+
+    .dg {
+        min-width: initial;
+        display: block;
+    }
+
+    .dg-party-size::before {
+        content: "Party size: ";
+    }
 }
 
 @media screen and (min-width: 2300px) {
