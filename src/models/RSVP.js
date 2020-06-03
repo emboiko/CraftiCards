@@ -89,6 +89,11 @@ const RSVP_Schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    pin: {
+        type: String,
+        uppercase: true,
+        trim: true
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

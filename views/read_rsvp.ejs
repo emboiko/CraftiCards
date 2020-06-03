@@ -7,7 +7,7 @@
     <% if (rsvp.img) { %>
     <img class="rsvp-img" src="/rsvp/<%=rsvp.id%>/img" alt="rsvp-image">
     <% } %>
-    <p class="center-text mbottom">
+    <p class="center-text mtop mbottom">
         <%=rsvp.description%>
     </p>
     <p class="center-text">
@@ -60,6 +60,11 @@
     </div>
     <hr class="mtop">
     <h2 class="center-text mtop">RSVP</h2>
+
+    <% if (locals.error) { %>
+    <p class="center-text mbottom error"><%=error%></p>
+    <% } %>
+
     <form action="/rsvp/<%=rsvp.id%>" method="POST">
         <label for="party">*Party Name</label>
         <input type="text" name="party" value="<%=locals.user ? user.first_name + ' ' + user.last_name : ''%>" placeholder="John Doe" required>
@@ -69,8 +74,9 @@
         <label for="party_size">Number of guests in party</label>
         <input type="number" name="party_size" min="1" value="1" required>
 
-        <% if (locals.error) { %>
-        <p class="center-text mbottom error"><%=error%></p>
+        <% if (rsvp.pin) { %>
+            <label for="pin">*PIN</label>
+            <input class="center-text" type="text" name="pin" id="pin">
         <% } %>
 
         <input class="btn submit mbottom mtop" type="submit" name="accepted" value="Accept">
@@ -80,5 +86,6 @@
 </div>
 
 <script src="/js/guestlist.js"></script>
+<script src="/js/upper.js"></script>
 
 <%- include("partials/footer") %>

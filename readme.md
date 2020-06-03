@@ -28,7 +28,6 @@
 - Delete RSVP after expiration optionally
 - Sanitize/Geocode Location
 - Prettier emails / register / delete account / createRSVP => uncomment calls
-- Private RSVP accept via password/pin
 - Password change form
 - Password reset email
 - Support/help/contact/footer

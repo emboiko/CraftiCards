@@ -12,15 +12,15 @@
 
     <form class="authForm" action="/users" method="POST">
         <label for="first_name">*First Name</label>
-        <input type="first_name" name="first_name" required>
+        <input type="first_name" name="first_name" required tabindex="1">
         <label for="last_name">*Last Name</label>
-        <input type="last_name" name="last_name" required>
+        <input type="last_name" name="last_name" required tabindex="2">
         <label for="email">*Email</label>
-        <input type="email" name="email" required>
+        <input type="email" name="email" required tabindex="3">
         <label for="password">*Password</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password" required tabindex="4">
         <label for="phone">Phone <small>(Format: 123-456-7890)</small></label>
-        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone">
+        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" tabindex="5">
         <button class="btn submit mtop">Submit</button>
     </form>
 </div>

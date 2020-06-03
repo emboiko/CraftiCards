@@ -30,9 +30,12 @@
         <input type="time" name="time" value="<%=rsvp.time%>">
         <label for="end_time">End Time</label>
         <input type="time" name="end_time" value="<%=rsvp.end_time%>">
+        <p class="mbottom center-text">PIN</p>
+        <input class="center-text" type="text" name="pin" value="<%=rsvp.pin%>" id="pin">
         <button class="btn submit mtop mbottom">Submit</button>
     </form>
-
 </div>
+
+<script src="/js/upper.js"></script>
 
 <%- include("partials/footer") %>

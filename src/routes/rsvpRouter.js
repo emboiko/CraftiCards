@@ -164,7 +164,8 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
         "date",
         "time",
         "end_time",
-        "rsvp-img"
+        "rsvp-img",
+        "pin"
     ];
 
     const valid = updates.every((update) => allowedUpdates.includes(update));
@@ -301,12 +302,14 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        const invalid = rsvp.joined.some((party) => party.email === req.body.email);
-        if (invalid) return res.status(400).render("read_rsvp", {
+        const invalidPin = rsvp.pin !== req.body.pin.toUpperCase();
+        const invalidEmail = rsvp.joined.some((party) => party.email === req.body.email);
+
+        if (invalidPin || invalidEmail) return res.status(400).render("read_rsvp", {
             user: req.user,
             rsvp,
             pageTitle: `RSVme | ${rsvp.title}`,
-            "error": "Email is already registered with this RSVP"
+            "error": invalidPin ? "Invalid Pin" : "Email is already registered with this RSVP"
         });
 
         let joined;
