@@ -21,6 +21,7 @@ rsvpRouter.get("/rsvp", auth, (req, res) => {
 rsvpRouter.post("/rsvp", auth, upload.single("rsvp-img"), async (req, res) => {
     const id = new mongoose.Types.ObjectId();
     const qr = await QRcode.toDataURL(`${process.env.URL}/rsvp/${id}`);
+
     let buffer;
     if (req.file) {
         buffer = await sharp(req.file.buffer)
@@ -28,6 +29,13 @@ rsvpRouter.post("/rsvp", auth, upload.single("rsvp-img"), async (req, res) => {
             .png()
             .toBuffer();
     }
+
+    req.body.expire = false;
+    if (req.body.expire) {
+        req.body.expire = true;
+    }
+
+    req.body.date = new Date(req.body.date);
 
     const rsvp = new RSVP({
         ...req.body,
@@ -165,7 +173,8 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
         "time",
         "end_time",
         "rsvp-img",
-        "pin"
+        "pin",
+        "expire"
     ];
 
     const valid = updates.every((update) => allowedUpdates.includes(update));
@@ -193,6 +202,8 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
 
             rsvp.img = buffer;
         }
+
+        if (typeof req.body.expire === "undefined") rsvp.expire = false;
 
         await rsvp.save();
         res.status(202).redirect(`/rsvp/${rsvp.id}`);
@@ -243,10 +254,7 @@ rsvpRouter.delete("/rsvp/:id", auth, async (req, res) => {
             pageTitle: "RSVme | 404"
         });
 
-        res.status(202).render("rsvpDeleteSuccess", {
-            user: req.user,
-            pageTitle: "RSVme"
-        });
+        res.status(202).redirect("/rsvps");
     } catch (err) {
         res.status(400).render("notfound", {
             user: req.user,

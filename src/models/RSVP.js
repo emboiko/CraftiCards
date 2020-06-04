@@ -37,22 +37,17 @@ const RSVP_Schema = new mongoose.Schema({
         trim: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true,
         trim: true,
         validate(date) {
-            if (!/\d{4}-\d{2}-\d{2}/.test(date)) {
-                throw new Error("Invalid Date");
-            }
-
-            const then = new Date(date)
-            const today = new Date(Date.now())
+            const today = new Date(Date.now());
             today.setUTCHours(0);
             today.setUTCMinutes(0);
             today.setUTCSeconds(0);
             today.setUTCMilliseconds(0);
 
-            if (then < today) {
+            if (date < today) {
                 throw new Error("Date has already passed.");
             }
         }
@@ -77,6 +72,10 @@ const RSVP_Schema = new mongoose.Schema({
                 throw new Error("Invalid End Time");
             }
         }
+    },
+    expire: {
+        type: Boolean,
+        required: true
     },
     img: {
         type: Buffer

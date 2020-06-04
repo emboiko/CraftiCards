@@ -25,7 +25,6 @@
 
 #### Todo:
 
-- Delete RSVP after expiration optionally
 - Sanitize/Geocode Location
 - Prettier emails / register / delete account / createRSVP => uncomment calls
 - Password change form
@@ -36,3 +35,4 @@
 - Preview RSVP
 - Tests
 - User friendly errors / more robust handlers / rerender where possible
+- reminders
