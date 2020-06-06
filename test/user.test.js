@@ -56,11 +56,25 @@ test("Should register a new user", async () => {
 
 test("Should not register a new user with an email in use", async () => {
     await request(app).post("/users").send({
-        first_name: "Foo",
-        last_name: "Bar",
+        first_name: "Bin",
+        last_name: "Baz",
         email: user1.email,
         password: "foobarbinbaz"
     }).expect(400);
+
+    const user = await User.findOne({ first_name: "Bin" });
+    expect(user).toBeNull();
+});
+
+test("Should not register a new user without an email", async () => {
+    await request(app).post("/users").send({
+        first_name: "Bin",
+        last_name: "Baz",
+        password: "foobarbinbaz"
+    }).expect(400);
+
+    const user = await User.findOne({ first_name: "Bin" });
+    expect(user).toBeNull();
 });
 
 test("Should hash a user's password upon registration", async () => {
@@ -95,8 +109,6 @@ test("Should not login an existing user with the wrong PW", async () => {
         password: user1.password + "foo"
     }).expect(400);
 });
-
-/////////////////////////////////
 
 test("Should log a user out", async () => {
     const res = await request(app)
@@ -144,8 +156,21 @@ test("Should update profile for authenticated user", async () => {
     expect(res.text).toContain("555-555-5555");
 });
 
+test("Should not set invalid fields on a user's profile", async () => {
+    await request(app)
+        .patch("/users/me")
+        .set("Cookie", [`access_token=${token2}`])
+        .send({
+            foo: "bar",
+        })
+        .expect(400);
+
+    const user = await User.findOne({ email: user2.email });
+    expect(user["foo"]).toBeUndefined();
+});
+
 test("Should not update profile for unauthenticated user", async () => {
-    const res = await request(app)
+    await request(app)
         .patch("/users/me")
         .send({
             first_name: "Sally",
@@ -170,6 +195,46 @@ test("Should hash a user's updated password", async () => {
     expect(user.password).not.toBe("a_new_pass");
 });
 
+test("Should not update a password with an invalid one", async () => {
+    await request(app)
+        .patch("/users/me")
+        .set("Cookie", [`access_token=${token1}`])
+        .send({
+            password: "          1"
+        })
+        .expect(400);
+});
+
+test("Should not update a phone number with an unformatted one", async () => {
+    await request(app)
+        .patch("/users/me")
+        .set("Cookie", [`access_token=${token1}`])
+        .send({
+            phone: "5555555555"
+        })
+        .expect(400);
+});
+
+test("Should not update a phone number with one of incorrect length", async () => {
+    await request(app)
+        .patch("/users/me")
+        .set("Cookie", [`access_token=${token1}`])
+        .send({
+            phone: "123-456-78999"
+        })
+        .expect(400);
+});
+
+test("Should allow a phone number to be removed", async () => {
+    await request(app)
+        .patch("/users/me")
+        .set("Cookie", [`access_token=${token1}`])
+        .send({
+            phone: ""
+        })
+        .expect(202);
+});
+
 test("Should delete an authenticated user's account", async () => {
     await request(app)
         .delete("/users/me")
@@ -177,7 +242,7 @@ test("Should delete an authenticated user's account", async () => {
         .send()
         .expect(202);
 
-    const user = await User.findOne({ email: "mike@aol.com" });
+    const user = await User.findOne({ email: user1.email.toLowerCase() });
     expect(user).toBeNull();
 });
 
@@ -187,3 +252,33 @@ test("Should not delete an unauthenticated user's account", async () => {
         .send()
         .expect(302);
 });
+
+test("Should upload avatar for authenticated user", async () => {
+    await request(app)
+        .post("/users/me/avatar")
+        .set("Cookie", [`access_token=${token2}`])
+        .attach("avatar", "test/fixtures/hay.png");
+
+    const user = await User.findOne({ email: user2.email });
+    expect(user.avatar).toEqual(expect.any(Buffer));
+});
+
+test("Should get users avatar (public)", async () => {
+    const user = await User.findOne({ email: user2.email });
+    const res = await request(app)
+        .get(`/users/${user._id}/avatar`)
+        .expect(200);
+
+    expect(res.body).toStrictEqual(expect.any(Buffer));
+});
+
+test("Should delete avatar for authenticated user", async () => {
+    await request(app)
+        .delete("/users/me/avatar")
+        .set("Cookie", [`access_token=${token2}`])
+        .expect(200);
+
+    const user = await User.findOne({ email: user2.email });
+    expect(user.avatar).toBeUndefined();
+});
+
