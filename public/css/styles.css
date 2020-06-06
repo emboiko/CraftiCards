@@ -272,18 +272,16 @@ textarea {
     width: 200px;
 }
 
-.aform {
-    margin: 0 auto;
-}
-
 .aform img {
     display: block;
     margin: 0 auto;
 }
 
 .aform {
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     border-radius: 15px;
+    margin: 0 auto;
+    width: 90%;
 }
 
 .delete {
