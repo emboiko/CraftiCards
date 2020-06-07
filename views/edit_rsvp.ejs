@@ -1,44 +1,49 @@
 <%- include("partials/header") %>
 
-<div id="box" class="frontmatter">
+<div id="med-box" class="frontmatter bordered">
     <% if (locals.error) { %>
     <p class="error center-text mtop mbottom"><%=error%></p>
     <% } %>
     <form action="/rsvp/<%=rsvp.id%>?_method=PATCH" method="POST" enctype="multipart/form-data">
-        <h2 class="mtop mbottom center-text">Edit RSVP</h2>
+        <h2 class="mbottom center-text">Edit RSVP</h2>
+        <img class="icon mbottom" src="/img/paper_airplane.png" alt="paper_airplane">
         <hr class="mbottom">
-        <p class="mbottom mtop center-text">Who:</p>
-        <label for="author">*Author/Host</label>
-        <input type="text" name="author" value="<%=rsvp.author%>">
-        <label for="author_email">*Email</label>
-        <input type="email" name="author_email" value="<%=rsvp.author_email%>">
-        <label for="author_phone">Phone <small>(Format: 123-456-7890)</small></label>
-        <input type="tel" name="author_phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="<%=rsvp.author_phone%>">
-        <p class="mbottom mtop center-text">What:</p>
-        <label for="title">*Title</label>
-        <input type="text" name="title" id="title" value="<%=rsvp.title%>">
-        <label for="description">Description</label>
-        <textarea class="mbottom" type="text" name="description"><%=rsvp.description%></textarea>
-        <p class="mbottom mtop center-text">Image (jpg/png)</p>
-        <input class="finput rsvp-img-upload" type="file" accept=".jpeg,.jpg,.png" name="rsvp-img">
-        <p class="mbottom mtop center-text">When &amp; Where:</p>
-        <label for="location">*Location</label>
-        <input type="text" name="location" value="<%=rsvp.location%>">
-        <label for="date">*Date</label>
-        <input class="date" type="date" name="date">
-        <label for="time">*Start Time</label>
-        <input type="time" name="time" value="<%=rsvp.time%>">
-        <label for="end_time">End Time</label>
-        <input type="time" name="end_time" value="<%=rsvp.end_time%>">
-        <p class="mbottom mtop center-text">Protect this RSVP with an optional PIN</p>
-        <small class="center-text mbottom">Don't forget to provide this to your guests!</small>
-        <input class="center-text" type="text" name="pin" value="<%=rsvp.pin%>" id="pin">
-        <label class="center-text mbottom" for="expire">Delete this RSVP after its date has passed.</label>
-        <small class="center-text mbottom">This can take up to 24 hours.</small>
-        <input class="expire" type="checkbox" name="expire" value="1" <%=rsvp.expire ? 'checked' : ''%>>
+        <div id="small-box" class="subcontent">
 
-        <% if (rsvp.expire) 'checked' %>
-
+            <p class="mbottom mtop center-text">Who:</p>
+            <label for="author">*Author/Host</label>
+            <input type="text" name="author" value="<%=rsvp.author%>">
+            <label for="author_email">*Email</label>
+            <input type="email" name="author_email" value="<%=rsvp.author_email%>">
+            <label for="author_phone">Phone <small>(Format: 123-456-7890)</small></label>
+            <input type="tel" name="author_phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="<%=rsvp.author_phone%>">
+            <p class="mbottom mtop center-text">What:</p>
+            <label for="title">*Title</label>
+            <input type="text" name="title" id="title" value="<%=rsvp.title%>">
+            <label for="description">Description</label>
+            <textarea class="mbottom" type="text" name="description"><%=rsvp.description%></textarea>
+            <p class="mbottom mtop center-text">Image (jpg/png)</p>
+            <input class="finput rsvp-img-upload" type="file" accept=".jpeg,.jpg,.png" name="rsvp-img">
+            <p class="mbottom mtop center-text">When &amp; Where:</p>
+            <label for="location">*Location</label>
+            <input type="text" name="location" value="<%=rsvp.location%>">
+            <div id="tiny-box" class="subcontent">
+                <label for="date">*Date</label>
+                <input class="date" type="date" name="date">
+                <label for="time">*Start Time</label>
+                <input type="time" name="time" value="<%=rsvp.time%>">
+                <label for="end_time">End Time</label>
+                <input type="time" name="end_time" value="<%=rsvp.end_time%>">
+            </div>
+            <p class="mbottom mtop center-text">Protect this RSVP with an optional PIN</p>
+            <small class="center-text mbottom">Don't forget to provide this to your guests!</small>
+            <div id="tiny-box" class="subcontent">
+                <input class="center-text" type="text" name="pin" value="<%=rsvp.pin%>" id="pin">
+            </div>
+            <label class="center-text mbottom" for="expire">Delete this RSVP after its date has passed.</label>
+            <small class="center-text mbottom">This can take up to 24 hours.</small>
+            <input class="expire" type="checkbox" name="expire" value="1" <%=rsvp.expire ? 'checked' : ''%>>
+        </div>
         <button class="btn submit mtop mbottom">Submit</button>
     </form>
 </div>

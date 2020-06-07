@@ -1,43 +1,49 @@
 <%- include("partials/header") %>
 
-    <div class="about">
-        <h3 class="center-text mbottom">It's a breeze.</h2>
-            <div class="about-box">
-                <img src="/img/mailbox.png" class="mbottom" alt="mailbox">
-                <p class="mbottom">
-                    Get up and running in moments- it takes only a few seconds to create an account. Compose your RSVP with a single form, and distribute the provided QR-code in whichever way you see fit. Your recipients will love how convenient it is. There's no need to register for an account or install an app in order to accept or decline. Simply scan the code and arrive at the given RSVP's page.
-                </p>
-            </div>
+<div class="about bordered">
+    <h3 class="center-text mbottom">It's a breeze.</h2>
+        <div class="about-box">
+            <img src="/img/mailbox.png" class="mbottom" alt="mailbox">
+            <p class="mbottom">
+                Get up and running in moments- it takes only a few seconds to create an account. Compose your RSVP with
+                a single form, and distribute the provided QR-code in whichever way you see fit. Your recipients will
+                love how convenient it is. There's no need to register for an account or install an app in order to
+                accept or decline. Simply scan the code and arrive at the given RSVP's page.
+            </p>
+        </div>
 
         <h3 class="center-text mbottom">Simple. Smooth. Straightforward.</h2>
             <div class="about-box">
                 <img src="/img/idea.png" class="mbottom" alt="idea">
                 <p class="mbottom">
-                    RSVme removes the hassle of updating and keeping track of who's coming and who's not. We streamline the process with a minimalist interface that's easy for everyone. Creating a new RSVP might take about one minute- replying to one takes about 10 seconds.
+                    RSVme removes the hassle of updating and keeping track of who's coming and who's not. We streamline
+                    the process with a minimalist interface that's easy for everyone. Creating a new RSVP might take
+                    about one minute- replying to one takes about 10 seconds.
                 </p>
             </div>
 
-        <h3 class="center-text mbottom">Get more feedback, faster.</h2>
-            <div class="about-box">
-                <img src="/img/guest-list.png" class="mbottom" alt="guest-list">
-                <p class="mbottom">
-                    Returning RSVPs in the mail is a drag, and easily forgotten. With our app, you'll never get lost between your guests' mailbox and the countertop. RSVme makes it as easy as possible to create or respond to invitations, giving you time to focus on planning your event instead of updating the guest-list.
-                </p>
-            </div>
+            <h3 class="center-text mbottom">Get more feedback, faster.</h2>
+                <div class="about-box">
+                    <img src="/img/guest-list.png" class="mbottom" alt="guest-list">
+                    <p class="mbottom">
+                        Returning RSVPs in the mail is a drag, and easily forgotten. With our app, you'll never get lost
+                        between your guests' mailbox and the countertop. RSVme makes it as easy as possible to create or
+                        respond to invitations, giving you time to focus on planning your event instead of updating the
+                        guest-list.
+                    </p>
+                </div>
 
-        <h2 class="center-text mtop">
-            
-            <a
-            <% if (locals.user) { %>
-                href="/rsvp">
-                <% } else { %>
-                href="/users">
-            <% } %>
-                Get Started
-            </a>
+                <h2 class="center-text mtop">
 
-        </h3>
+                    <a <% if (locals.user) { %> href="/rsvp">
+                        <% } else { %>
+                        href="/users">
+                        <% } %>
+                        Get Started
+                    </a>
 
-    </div>
-    
+            </h3>
+
+</div>
+
 <%- include("partials/footer") %>

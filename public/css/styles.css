@@ -25,7 +25,7 @@ body {
 
 .favicon {
     width:100px;
-    top: -30px;
+    top: -10px;
     position: absolute;    
     right: 20px;
 }
@@ -124,6 +124,13 @@ a:hover {
     flex-direction: column;
 }
 
+.subcontent {
+    position: relative;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: column;
+}
+
 #home-box {
     width:475px;
 }
@@ -132,17 +139,36 @@ a:hover {
     width: 900px;
 }
 
+#med-box {
+    width: 650px;
+}
+
 #small-box {
-    width: 450px;
+    width: 500px;
+}
+
+#tiny-box {
+    width: 250px;
+}
+
+#tiny-box input {
+    text-align: center;
 }
 
 .center-text{
     text-align: center;
 }
 
+.bordered {
+    border: 2px solid #888888;
+    border-radius: 15px;
+    box-shadow: #555555 5px 5px 10px 10px;
+    margin-bottom: 50px;
+}
+
 .rsvp-img-upload {
     width: 50%;
-    margin-left: 325px;
+    margin-left: 135px;
 }
 
 .rsvp-img {
@@ -173,6 +199,7 @@ form input {
     margin-bottom: 10px;
     font-size: 16px;
     padding: 5px;
+    font-family: "Montserrat";
 }
 
 form label {
@@ -206,6 +233,7 @@ form label {
 
 .avatar {
     width:250px;
+    border-radius: 15px;
 }
 
 .guestlist {
@@ -264,8 +292,11 @@ form label {
 }
 
 textarea {
-    resize: none;
+    resize: vertical;
     height: 100px;
+    font-family: "Montserrat";
+    font-size: 16px;
+    padding: 5px;
 }
 
 .aform button {
@@ -278,7 +309,6 @@ textarea {
 }
 
 .aform {
-    border: 1px solid #000000;
     border-radius: 15px;
     margin: 0 auto;
     width: 90%;
@@ -352,7 +382,7 @@ textarea {
         margin-right: auto;
     }
 
-    #box, #account-box {
+    #box, #account-box, #med-box, #small-box, #tiny-box {
         width: 90vw;
         margin: 0 auto;
     }
@@ -362,8 +392,7 @@ textarea {
     }
 
     .favicon {
-        position: static;
-        margin: 0 auto;
+        display: none;
     } 
 
     .user-box {
