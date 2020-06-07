@@ -33,6 +33,8 @@ const rsvp2 = {
     pin: "",
 };
 
+let rsvp3;
+
 const user1 = {
     first_name: "Mike",
     last_name: "Johnson",
@@ -149,6 +151,23 @@ test("Should create a new RSVP", async () => {
     expect(rsvp).toBeDefined();
     expect(rsvp.qr).toBeDefined();
     expect(rsvp.id).toBeDefined();
+    rsvp1.id = rsvp.id;
+});
+
+test("Should create a new RSVP with an image", async () => {
+    const rsvp_ = JSON.parse(JSON.stringify(rsvp1));
+    rsvp_.author_email = "test@test.com"
+    await request(app)
+        .post("/rsvp")
+        .set("Cookie", [`access_token=${token1}`])
+        .attach("rsvp-img", "test/fixtures/hay.png")
+        .field(rsvp_);
+
+    const rsvp = await RSVP.findOne({ author_email: "test@test.com" });
+    expect(rsvp).toBeDefined();
+    expect(rsvp.qr).toBeDefined();
+    expect(rsvp.id).toBeDefined();
+    rsvp3 = rsvp;
 });
 
 test("Should render the public RSVP page", async () => {
@@ -211,3 +230,177 @@ test("Should render the edit page for owner of RSVP", async () => {
         .expect(200);
 });
 
+test("Should not update RSVP for unauthenticated user", async () => {
+    await request(app)
+        .patch(`/rsvp/${rsvp2.id}`)
+        .send({ title: "New RSVP title" })
+        .expect(302);
+});
+
+test("Should not update RSVP with invalid data", async () => {
+    await request(app)
+        .patch(`/rsvp/${rsvp2.id}`)
+        .set("Cookie", [`access_token=${token2}`])
+        .send({ qr: "Foo" })
+        .expect(400);
+});
+
+test("Should not update RSVP without required fields", async () => {
+    const rsvp = JSON.parse(JSON.stringify(rsvp2));
+    delete rsvp.title;
+    await request(app)
+        .patch(`/rsvp/${rsvp2.id}`)
+        .set("Cookie", [`access_token=${token2}`])
+        .send(rsvp)
+        .expect(400);
+});
+
+test("Should not render the delete page for non-owner of RSVP", async () => {
+    await request(app)
+        .get(`/rsvp/${rsvp2.id}/delete`)
+        .set("Cookie", [`access_token=${token1}`])
+        .send()
+        .expect(404);
+});
+
+test("Should render the delete page for owner of RSVP", async () => {
+    const res = await request(app)
+        .get(`/rsvp/${rsvp2.id}/delete`)
+        .set("Cookie", [`access_token=${token2}`])
+        .send()
+        .expect(200);
+
+    expect(res.text).toContain(rsvp2.title);
+});
+
+test("Should not delete RSVP for non-owner", async () => {
+    await request(app)
+        .delete(`/rsvp/${rsvp2.id}`)
+        .set("Cookie", [`access_token=${token1}`])
+        .send()
+        .expect(404);
+});
+
+test("Should delete RSVP for owner", async () => {
+    await request(app)
+        .delete(`/rsvp/${rsvp2.id}`)
+        .set("Cookie", [`access_token=${token2}`])
+        .send()
+        .expect(302);
+});
+
+test("Should render the rsvp-list page for authenticated user", async () => {
+    const res = await request(app)
+        .get("/rsvps")
+        .set("Cookie", [`access_token=${token2}`])
+        .send()
+        .expect(200);
+
+    expect(res.text).toContain("My RSVPs");
+});
+
+test("Should not allow an RSVP to be accepted without email", async () => {
+    await request(app)
+        .post(`/rsvp/${rsvp1.id}`)
+        .send({
+            party: "The Johnsons",
+            party_size: "5",
+            accepted: "Accept"
+        })
+        .expect(400);
+});
+
+test("Should not allow an RSVP to be accepted without pin [if set]", async () => {
+    const rsvp = await RSVP.findOne({ id: rsvp1.id });
+    rsvp.pin = "JOINUS2020"
+    await rsvp.save();
+
+    await request(app)
+        .post(`/rsvp/${rsvp1.id}`)
+        .send({
+            party: "The Johnsons",
+            party_size: "5",
+            email: "johnsonfamily@gmail.com",
+            accepted: "Accept"
+        })
+        .expect(400);
+});
+
+test("Should allow an RSVP to be accepted", async () => {
+    await request(app)
+        .post(`/rsvp/${rsvp1.id}`)
+        .send({
+            party: "The Johnsons",
+            party_size: "5",
+            email: "johnsonfamily@gmail.com",
+            pin: "JOINUS2020",
+            accepted: "Accept"
+        })
+        .expect(201);
+
+    const rsvp = await RSVP.findOne({ id: rsvp1.id });
+    expect(rsvp.joined.length).toBe(1);
+    expect(rsvp.num_guests).toBe(5);
+});
+
+test("Should allow an RSVP to be accepted without pin", async () => {
+    await request(app)
+        .post(`/rsvp/${rsvp3.id}`)
+        .send({
+            party: "The Johnsons",
+            party_size: "5",
+            email: "johnsonfamily@gmail.com",
+            accepted: "Accept"
+        })
+        .expect(201);
+
+    const rsvp = await RSVP.findOne({ id: rsvp3.id });
+    expect(rsvp.joined.length).toBe(1);
+    expect(rsvp.num_guests).toBe(5);
+});
+
+test("Should not allow an RSVP to be accepted twice with the same email", async () => {
+    await request(app)
+        .post(`/rsvp/${rsvp1.id}`)
+        .send({
+            party: "The Johnsons",
+            party_size: "5",
+            email: "johnsonfamily@gmail.com",
+            pin: "JOINUS2020",
+            accepted: "Accept"
+        })
+        .expect(400);
+
+    const rsvp = await RSVP.findOne({ id: rsvp1.id });
+    expect(rsvp.joined.length).toBe(1);
+    expect(rsvp.num_guests).toBe(5);
+});
+
+test("Should allow an RSVP to be declined", async () => {
+    await request(app)
+        .post(`/rsvp/${rsvp1.id}`)
+        .send({
+            party: "Steve",
+            party_size: "1",
+            email: "steve@gmail.com",
+            pin: "JOINUS2020",
+            accepted: "Decline"
+        })
+        .expect(201);
+
+    const rsvp = await RSVP.findOne({ id: rsvp1.id });
+    expect(rsvp.joined.length).toBe(1);
+    expect(rsvp.num_guests).toBe(5);
+    expect(rsvp.declined.length).toBe(1);
+});
+
+test("Should render the guest-list for RSVP owner [with guests]", async () => {
+    const res = await request(app)
+        .get(`/rsvp/${rsvp1.id}/joined`)
+        .set("Cookie", [`access_token=${token1}`])
+        .send()
+        .expect(200);
+
+    expect(res.text).toContain("The Johnsons");
+    expect(res.text).toContain("johnsonfamily@gmail.com");
+});

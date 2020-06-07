@@ -147,19 +147,19 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("rsvp-img"), async (req, res) 
         "expire"
     ];
 
+    const rsvp = await RSVP.findOne({ id: req.params.id, owner: req.user._id });
+    if (!rsvp) return res.status(404).render("notfound", {
+        user: req.user,
+        pageTitle: "RSVme | 404",
+        url: process.env.URL
+    });
+
     const valid = updates.every((update) => allowedUpdates.includes(update));
     if (!valid) return res.status(400).render("edit_rsvp", {
         error: "Invalid updates",
         user: req.user,
         rsvp,
         pageTitle: `RSVme | Edit ${rsvp.title}`
-    });
-
-    const rsvp = await RSVP.findOne({ id: req.params.id, owner: req.user._id });
-    if (!rsvp) return res.status(404).render("notfound", {
-        user: req.user,
-        pageTitle: "RSVme | 404",
-        url: process.env.URL
     });
 
     try {
