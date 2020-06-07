@@ -312,6 +312,7 @@ rsvpRouter.post("/rsvp/:id", checkUser, async (req, res) => {
                 rsvp.date,
                 rsvp.time,
                 rsvp.end_time,
+                rsvp.id
             );
         } else {
             rsvp.declined = rsvp.declined.concat({

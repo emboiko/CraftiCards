@@ -313,6 +313,13 @@ textarea {
     margin: 20px 0;
 }
 
+.dg a {
+    width: 300px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .expire {
     margin: 0 auto;
 }

@@ -45,7 +45,7 @@ userRouter.post("/users", noAuth, async (req, res) => {
     const user = new User(req.body);
     try {
         await user.save();
-        // welcomeEmail(user.email, user.name);
+        welcomeEmail(user.email, user.first_name);
         const token = await user.generateAuthToken();
         res.cookie("access_token", token, { httpOnly: true });
 
@@ -125,7 +125,7 @@ userRouter.get("/users/me/delete", auth, async (req, res) => {
 
 userRouter.delete("/users/me", auth, async (req, res) => {
     await req.user.remove();
-    // cancelEmail(req.user.email, req.user.name);
+    cancelEmail(req.user.email, req.user.first_name);
     res.status(202).render("accountDeleteSuccess", {
         user: req.user,
         pageTitle: "RSVme",
