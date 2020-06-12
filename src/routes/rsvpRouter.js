@@ -247,7 +247,6 @@ rsvpRouter.get("/rsvps", auth, async (req, res) => {
             user: req.user,
             rsvps: req.user.rsvps,
             pageTitle: "RSVme | My RSVPs",
-            url: process.env.URL,
             sort
         });
     } catch (err) {
