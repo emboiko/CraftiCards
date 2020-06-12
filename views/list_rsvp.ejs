@@ -73,8 +73,12 @@
         urlString += `sortBy=${sortValue}`;
         urlString += `:${orderValue}`;
 
-        this.location.href = urlString;
+        window.location.href = urlString;
     });
 </script>
 
 <%- include("partials/footer") %>
+
+<!-- http://rsv-me.herokuapp.com/rsv-me.herokuapp.com/rsvps?sortBy=createdAt:asc -->
+
+<!-- http://localhost:3000/rsvps?sortBy=createdAt:asc -->
