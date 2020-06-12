@@ -7,10 +7,12 @@
 body {
     color: #202020;
     background-color: #F0F3F4;
+    background-image: linear-gradient(#FFFFFF, #CACFD2);
     font-size: 1.1em;
     font-family: "Montserrat";
-    background-image: url("/img/bg.jpg");
     background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 #qr {
@@ -83,6 +85,10 @@ header a {
     align-items: center;
 }
 
+.bolded {
+    font-weight: bold;
+}
+
 .user {
     max-width: 140px;
     margin-right: 10px;
@@ -90,11 +96,13 @@ header a {
     display: inline-block;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-weight: bold;
 }
 
 .midlinks-box {
     margin-top: 15px;
     font-size: 1.1em;
+    font-weight: bold;
 }
 
 .btn {
@@ -181,7 +189,6 @@ a:hover {
 
 .menu {
     width: 50px;
-    /* transform: rotate(90); */
 }
 
 .bordered {
@@ -189,7 +196,7 @@ a:hover {
     border-radius: 15px;
     box-shadow: #555555 5px 5px 10px 10px;
     margin-bottom: 50px;
-    background-color: #dddddd;
+    background-color: #F0F3F4;
 }
 
 .rsvp-img-upload {
@@ -318,7 +325,6 @@ form label {
 }
 
 .dropdowns {
-    /* margin-left: 15px; */
     margin: 0 auto;
 }
 
@@ -392,7 +398,7 @@ textarea {
 /*******************************************************/
 
 @media screen and (max-width: 768px) {
-    #main-header {
+    header {
         padding: 0;
         display: none;
     }
@@ -545,11 +551,5 @@ textarea {
 
     .dg-party-size::before {
         content: "Party size: ";
-    }
-}
-
-@media screen and (min-width: 2300px) {
-    body {
-        background-size: cover;
     }
 }

@@ -22,7 +22,7 @@ userRouter.post("/users/login", noAuth, async (req, res) => {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
         res.cookie("access_token", token, { httpOnly: true });
-        res.redirect("/");
+        res.redirect("/rsvps");
     } catch (err) {
         res.status(400).render("login", {
             error: "Unable to login. Check your credentials and try again.",
