@@ -49,12 +49,12 @@
     <p class="center-text mbottom">
         <%=rsvp.author_phone%>
     </p>
-    <p class="center-text">
+    <p class="center-text mbottom">
         <%=rsvp.joined.length%> parties registered | <%=rsvp.num_guests%> total guests.
     </p>
 
     <% if (rsvp.joined.length) { %>
-    <button class="btn submit mtop btn-guestlist">Show the guest-list</button>
+    <button class="btn submit mtop mbottom btn-guestlist">Show the guest-list</button>
     <% } %>
 
     <div class="guestlist">

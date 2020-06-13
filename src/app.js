@@ -18,10 +18,6 @@ app.use(rsvpRouter);
 app.use(userRouter);
 app.set("view engine", "ejs");
 
-app.get("*", (req, res) => {
-    res.render("notfound", { pageTitle: "RSVme | 404", url:process.env.URL });
-});
-
 removeExpiredRSVPs();
 
 module.exports = app;

@@ -13,10 +13,10 @@ const removeExpiredRSVPs = async () => {
     yesterday.setUTCSeconds(0);
     yesterday.setUTCMilliseconds(0);
 
-    const expiredRSVPs = await RSVP.find({date:{ $lt: yesterday }, expire:true});
+    const expiredRSVPs = await RSVP.find({ date: { $lte: yesterday }, expire: true });
     expiredRSVPs.forEach((expiredRSVP) => {
-        console.log("Expiring: ", expiredRSVP.id ,expiredRSVP.title, expiredRSVP.date);
-        expiredRSVP.remove();
+        console.log("Expiring: ", expiredRSVP.id, expiredRSVP.title, expiredRSVP.date);
+        // expiredRSVP.remove();
     });
 }
 

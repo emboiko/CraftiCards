@@ -181,4 +181,12 @@ userRouter.delete("/users/me/avatar", auth, async (req, res) => {
     res.status(200).send();
 });
 
+userRouter.get("*", checkUser, (req, res) => {
+    res.render("notfound", {
+        user: req.user,
+        pageTitle: "RSVme | 404",
+        url: process.env.URL
+    });
+});
+
 module.exports = userRouter;
