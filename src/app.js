@@ -16,7 +16,15 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(rsvpRouter);
 app.use(userRouter);
-app.set("view engine", "ejs");
+
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static("client/build"));
+// } else {
+//   const path = require("path");
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+//   });
+// }
 
 removeExpiredRSVPs();
 

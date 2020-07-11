@@ -1,0 +1,24 @@
+.landing-icon {
+    width: 75px;
+}
+
+.err {
+    color: red;
+}
+
+.mtop {
+    margin-top: 10px;
+}
+.mbottom {
+    margin-bottom: 10px;
+}
+.mright {
+    margin-right: 10px;
+}
+.mleft {
+    margin-left: 10px;
+}
+
+.row .input-field input:focus {
+    border-bottom: 1px solid #03a9f4 !important;
+}
