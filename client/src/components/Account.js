@@ -90,7 +90,7 @@ export default class Account extends Component {
     this.props.history.push("/account/delete");
   }
 
-  deleteAvatar = async (e) => {
+  deleteAvatar = async () => {
     const res = await axios.delete("/users/me/avatar");
     if (res.status === 200) {
       this.setState({
@@ -153,7 +153,11 @@ export default class Account extends Component {
               onChange={this.handleChange}
             >
               <br />
-              <input className="mtop mbottom" type="file" name="avatar" />
+              <input
+                className="mtop mbottom"
+                accept=".jpeg,.jpg,.png"
+                type="file"
+                name="avatar" />
               <br />
               <button className="btn blue-grey darken-3 mtop mbottom fixed-width-btn">
                 Upload
@@ -237,7 +241,7 @@ export default class Account extends Component {
               </div>
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="phone">Phone (Format: 123-456-7890)</label>
+                  <label htmlFor="phone">Phone <small>(Format: 123-456-7890)</small></label>
                   <br />
                   <input
                     name="phone"

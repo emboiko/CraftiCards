@@ -24,10 +24,6 @@
     margin-left: 10px;
 }
 
-.row .input-field input:focus {
-    border-bottom: 1px solid #263238 !important;
-}
-
 .active-link {
     background-color: #263238;
 }
@@ -44,10 +40,23 @@ main {
 
 body {
     font-family: 'Nunito', sans-serif;
+    background-color: #eceff1;
+}
+
+label {
+    color: #78909c !important;
 }
 
 .small {
     height: 60px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.error {
+    color: #c62828;
 }
 
 .logo-footer {
@@ -73,6 +82,24 @@ body {
     max-width: 300px;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.description {
+    height: 200px;
+    resize: vertical;
+}
+
+.pin-input {
+    text-align: center;
+}
+
+.input-field input:focus + label, .materialize-textarea:focus:not([readonly]) + label {
+    color: #263238 !important;
+}
+
+.input-field input:focus, .materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #263238 !important;
+    box-shadow: 0 1px 0 0 #263238 !important;
 }
 
 @media only screen and (max-width: 993px) {

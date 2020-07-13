@@ -125,7 +125,7 @@ export default class Register extends Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <label htmlFor="phone">Phone (Format: 123-456-7890)</label>
+                <label htmlFor="phone">Phone <small>(Format: 123-456-7890)</small></label>
                 <br />
                 <input
                   name="phone"
