@@ -10,6 +10,7 @@ export default class Register extends Component {
       last_name: "",
       email: "",
       password: "",
+      phone: "",
       message: ""
     };
   }
@@ -23,6 +24,7 @@ export default class Register extends Component {
       last_name: this.state.last_name,
       email: this.state.email,
       password: this.state.password,
+      phone: this.state.phone,
     });
 
     if (res.data._id) {
@@ -34,7 +36,16 @@ export default class Register extends Component {
     }
   }
 
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleKeyPress = (e) => {
+    let val = e.target.value.replace(/[^\d\b-]/g, "");
+    if (val.length === 3 && (e.data !== null)) val += "-";
+    if (val.length === 7 && (e.data !== null)) val += "-";
+    this.setState({ [e.target.name]: val });
+  }
 
   render() {
     return (
@@ -49,7 +60,7 @@ export default class Register extends Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <label htmlFor="first_name">First Name</label>
+                <label htmlFor="first_name">*First Name</label>
                 <br />
                 <input
                   name="first_name"
@@ -60,12 +71,13 @@ export default class Register extends Component {
                   maxLength="60"
                   minLength="1"
                   onChange={this.handleChange}
+                  value={this.state.first_name}
                 />
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <label htmlFor="last_name">Last Name</label>
+                <label htmlFor="last_name">*Last Name</label>
                 <br />
                 <input
                   name="last_name"
@@ -76,12 +88,13 @@ export default class Register extends Component {
                   maxLength="60"
                   minLength="1"
                   onChange={this.handleChange}
+                  value={this.state.last_name}
                 />
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">*Email</label>
                 <br />
                 <input
                   name="email"
@@ -90,12 +103,13 @@ export default class Register extends Component {
                   className="validate"
                   required
                   onChange={this.handleChange}
+                  value={this.state.email}
                 />
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">*Password</label>
                 <br />
                 <input
                   name="password"
@@ -104,7 +118,25 @@ export default class Register extends Component {
                   className="validate"
                   required
                   minLength="7"
-                  onChange={this.handleChange} />
+                  onChange={this.handleChange}
+                  value={this.state.password}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <label htmlFor="phone">Phone (Format: 123-456-7890)</label>
+                <br />
+                <input
+                  name="phone"
+                  id="phone"
+                  type="tel"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  className="validate"
+                  onChange={this.handleChange}
+                  onKeyPress={this.handleKeyPress}
+                  value={this.state.phone}
+                />
               </div>
             </div>
             <div className="row center-align">
@@ -118,3 +150,4 @@ export default class Register extends Component {
     );
   }
 }
+

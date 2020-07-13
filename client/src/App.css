@@ -4,7 +4,7 @@
 
 .logo {
     height: 70px;
-    padding: 10px;
+    padding: 5px 5px 10px 5px;
 }
 
 .err {
@@ -48,4 +48,14 @@ body {
 
 .smaller {
     width: 75px;
+}
+
+.account-avatar {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+#hidden {
+    display:none;
 }

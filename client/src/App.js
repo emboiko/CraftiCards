@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/utils/router/ProtectedRoute";
 import PublicOnlyRoute from "./components/utils/router/PublicOnlyRoute";
 import NotFound from "./components/NotFound";
 import Header from "./components/utils/Header";
+import Footer from "./components/utils/Footer";
 import Landing from "./components/Landing";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -39,54 +40,58 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <Header user={this.state.user} />
-        <Switch>
+        <div className="main-wrapper">
+          <main>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={routeProps => <Landing {...routeProps} user={this.state.user} />}
+              />
 
-          <Route
-            exact
-            path="/"
-            render={routeProps => <Landing {...routeProps} user={this.state.user} />}
-          />
+              <PublicOnlyRoute
+                exact
+                path="/register"
+                getUser={this.getUser}
+                render={routeProps => <Register {...routeProps} setUser={this.setUser} />}
+              />
 
-          <PublicOnlyRoute
-            exact
-            path="/register"
-            getUser={this.getUser}
-            render={routeProps => <Register {...routeProps} setUser={this.setUser} />}
-          />
+              <PublicOnlyRoute
+                exact
+                path="/login"
+                getUser={this.getUser}
+                render={routeProps => <Login {...routeProps} setUser={this.setUser} />}
+              />
 
-          <PublicOnlyRoute
-            exact
-            path="/login"
-            getUser={this.getUser}
-            render={routeProps => <Login {...routeProps} setUser={this.setUser} />}
-          />
+              <ProtectedRoute
+                exact
+                path="/account"
+                getUser={this.getUser}
+                render={routeProps => <Account {...routeProps} getUser={this.getUser} setUser={this.setUser} />}
+              />
 
-          <ProtectedRoute
-            exact
-            path="/account"
-            getUser={this.getUser}
-            render={routeProps => <Account {...routeProps} getUser={this.getUser} setUser={this.setUser} />}
-          />
+              <ProtectedRoute
+                exact
+                path="/account/delete"
+                getUser={this.getUser}
+                render={routeProps => <AccountDelete {...routeProps} setUser={this.setUser} />}
+              />
 
-          <ProtectedRoute
-            exact
-            path="/account/delete"
-            getUser={this.getUser}
-            render={routeProps => <AccountDelete {...routeProps} setUser={this.setUser} />}
-          />
+              <ProtectedRoute
+                exact
+                path="/dashboard"
+                getUser={this.getUser}
+                render={routeProps => <Dashboard {...routeProps} />}
+              />
 
-          <ProtectedRoute
-            exact
-            path="/dashboard"
-            getUser={this.getUser}
-            render={routeProps => <Dashboard {...routeProps} />}
-          />
+              <Route
+                render={routeProps => <NotFound {...routeProps} />}
+              />
 
-          <Route
-            render={routeProps => <NotFound {...routeProps} />}
-          />
-
-        </Switch>
+            </Switch>
+          </main>
+        </div>
+        <Footer />
       </BrowserRouter>
     );
   }

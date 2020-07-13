@@ -79,44 +79,42 @@ userRouter.delete("/users/me", auth, async (req, res) => {
   });
 });
 
-// userRouter.post("/users/me/avatar", auth, upload.single("avatar"), async (req, res) => {
-//   if (!req.file) return res.status(400).json({
-//     error: "Please choose a file before uploading."
-//   });
+userRouter.post("/users/me/avatar", auth, upload.single("avatar"), async (req, res) => {
+  if (!req.file) return res.status(400).json({
+    error: "Please choose a file before uploading."
+  });
 
-//   const buffer = await sharp(req.file.buffer)
-//     .resize({ width: 250, height: 250 })
-//     .png()
-//     .toBuffer();
+  const buffer = await sharp(req.file.buffer)
+    .resize({ width: 250, height: 250 })
+    .png()
+    .toBuffer();
 
-//   req.user.avatar = buffer;
-//   await req.user.save();
-//   res.status(201).send();
+  req.user.avatar = buffer;
+  await req.user.save();
+  res.status(201).send();
 
-// }, (err, req, res, next) => {
-//   res.status(500).json({
-//     error: err
-//   });
-// });
+}, (err, req, res, next) => {
+  res.status(500).json({
+    error: err
+  });
+});
 
-// //todo
-// userRouter.get("/users/:id/avatar", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     if (!user || !user.avatar) throw new Error();
+userRouter.get("/users/:id/avatar", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.avatar) throw new Error();
 
-//     res.set("Content-Type", "image/png");
-//     res.status(200).send(user.avatar);
-//   } catch (err) {
-//     res.status(404).send();
-//   }
-// });
+    res.set("Content-Type", "image/png");
+    res.status(200).send(user.avatar);
+  } catch (err) {
+    res.status(404).send();
+  }
+});
 
-// //todo
-// userRouter.delete("/users/me/avatar", auth, async (req, res) => {
-//   req.user.avatar = undefined;
-//   await req.user.save();
-//   res.status(200).send();
-// });
+userRouter.delete("/users/me/avatar", auth, async (req, res) => {
+  req.user.avatar = undefined;
+  await req.user.save();
+  res.status(200).send();
+});
 
 module.exports = userRouter;

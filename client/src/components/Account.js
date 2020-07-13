@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Logout from "./utils/Logout";
 import Loading from "./utils/Loading";
 import axios from 'axios';
+import defaultUserAvatar from "../img/defaultUserIcon.png";
 
 export default class Account extends Component {
   constructor(props) {
@@ -9,10 +10,14 @@ export default class Account extends Component {
     this.state = {
       user: null,
       message: "",
+      file: null,
+      avatar: "",
+      avatarDeleteButtonID: "delete-avatar",
       first_name: "",
       last_name: "",
       email: "",
       password: "",
+      phone: ""
     };
   }
 
@@ -28,7 +33,9 @@ export default class Account extends Component {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
-      password: ""
+      password: "",
+      phone: user.phone,
+      avatar: `/users/${user._id}/avatar`
     });
   }
 
@@ -39,6 +46,7 @@ export default class Account extends Component {
       last_name: this.state.last_name,
       email: this.state.email,
       password: this.state.password,
+      phone: this.state.phone,
     }
     const res = await axios.patch("/users/me", user);
 
@@ -47,7 +55,35 @@ export default class Account extends Component {
       this.props.setUser(user);
       this.populate();
     }
+  }
 
+  handleAvatarSubmit = async (e) => {
+    e.preventDefault();
+    this.setState({ message: "" });
+    if (!this.state.file) {
+      return this.setState({ message: "No file selected." });
+    }
+
+    const formData = new FormData();
+    formData.append("avatar", this.state.file);
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+
+    try {
+      const res = await axios.post("/users/me/avatar", formData, config);
+      if (res.status === 201) {
+        this.setState({ avatar: `/users/${this.state.user._id}/avatar?` + new Date().getTime() })
+        this.setState({
+          avatarDeleteButtonID: "delete-avatar"
+        });
+      }
+    } catch (err) {
+      this.setState({ message: "Max file size 1MB | Format .PNG or .JPG" });
+    }
   }
 
   deleteAccount = (e) => {
@@ -55,10 +91,41 @@ export default class Account extends Component {
     this.props.history.push("/account/delete");
   }
 
+  deleteAvatar = async (e) => {
+    const res = await axios.delete("/users/me/avatar");
+    if (res.status === 200) {
+      this.setState({
+        avatar: `/users/${this.state.user._id}/avatar?` + new Date().getTime()
+      });
+      this.setState({
+        avatarDeleteButtonID: "hidden"
+      });
+    }
+  }
+
   handleChange = (e) => {
+    switch (e.target.name) {
+      case 'avatar':
+        this.setState({ file: e.target.files[0] });
+        break;
+      default:
+        this.setState({ [e.target.name]: e.target.value });
+    }
+  }
+
+  handleKeyPress = (e) => {
+    let val = e.target.value.replace(/[^\d\b-]/g, "");
+    if (val.length === 3 && (e.data !== null)) val += "-";
+    if (val.length === 7 && (e.data !== null)) val += "-";
+    this.setState({ [e.target.name]: val });
+  }
+
+  handleBrokenImage = (e) => {
+    e.target.src = defaultUserAvatar;
+    e.target.style = { width: "50px" };
     this.setState({
-      [e.target.name]: e.target.value
-    })
+      avatarDeleteButtonID: "hidden"
+    });
   }
 
   render() {
@@ -75,10 +142,34 @@ export default class Account extends Component {
             <h2>Account</h2>
             <Logout />
             <p>{this.state.message}</p>
+            <form
+              encType="multipart/form-data"
+              onSubmit={this.handleAvatarSubmit}
+              onChange={this.handleChange}
+            >
+              <img
+                src={this.state.avatar}
+                alt="Avatar"
+                className="account-avatar mbottom mtop"
+                onError={this.handleBrokenImage}
+              />
+              <br />
+              <input className="mtop mbottom" type="file" name="avatar" />
+              <br />
+              <button className="btn mtop mbottom">Upload Avatar</button>
+            </form>
+            <button
+              className="btn mtop mbottom red"
+              id={this.state.avatarDeleteButtonID}
+              onClick={this.deleteAvatar}
+            >
+              Delete Avatar
+            </button>
           </div>
           <div className="row">
 
-            <form className="col s6 offset-s3" onSubmit={this.handleSubmit}>
+
+            <form className="col s10 offset-s1 m8 offset-m2 l6 offset-l3" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s12">
                   <label htmlFor="first_name">*First Name</label>
@@ -142,6 +233,22 @@ export default class Account extends Component {
                     onChange={this.handleChange} />
                 </div>
               </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <label htmlFor="phone">Phone (Format: 123-456-7890)</label>
+                  <br />
+                  <input
+                    name="phone"
+                    id="phone"
+                    type="tel"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    className="validate"
+                    onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPress}
+                    value={this.state.phone}
+                  />
+                </div>
+              </div>
               <div className="row center-align">
                 <button
                   className="btn blue-grey waves-effect waves-light"
@@ -152,11 +259,9 @@ export default class Account extends Component {
             </form>
           </div>
           <div className="center-align">
-            <button className="btn red" onClick={this.deleteAccount}>
+            <button className="btn red mbottom" onClick={this.deleteAccount}>
               Delete Account
             </button>
-
-
           </div>
         </div>
       );
