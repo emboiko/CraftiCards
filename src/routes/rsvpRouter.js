@@ -22,7 +22,7 @@ rsvpRouter.post("/rsvp", auth, upload.single("img"), async (req, res) => {
   }
 
   req.body.date = new Date(req.body.date);
-  req.body.rsvp_by = new Date(req.body.rsvp_by);
+  req.body.rsvpBy = new Date(req.body.rsvpBy);
 
   const rsvp = new RSVP({
     ...req.body,
@@ -72,15 +72,15 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("img"), async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [
     "author",
-    "author_email",
-    "author_phone",
+    "authorEmail",
+    "authorPhone",
     "title",
     "description",
     "location",
     "date",
-    "rsvp_by",
+    "rsvpBy",
     "time",
-    "end_time",
+    "endTime",
     "img",
     "pin",
   ];
@@ -104,7 +104,7 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("img"), async (req, res) => {
     }
 
     await rsvp.save();
-    res.status(200).json(rsvp);
+    res.status(202).json(rsvp);
   } catch (err) {
     res.status(500).send("Server Error");
   }
@@ -158,39 +158,41 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
       invalidPin = false;
     }
 
+    if (!req.body.email) error = "Email is required";
+
     const invalidEmail = rsvp.joined.some((party) => party.email === req.body.email);
-    if (invalidEmail) error = "Invalid Email";
+    if (invalidEmail) error = "Email is already registered for this RSVP.";
 
     const today = new Date(Date.now());
     today.setUTCHours(0);
     today.setUTCMinutes(0);
     today.setUTCSeconds(0);
     today.setUTCMilliseconds(0);
-    let invalidDate = today > rsvp.rsvp_by;
+    let invalidDate = today > rsvp.rsvpBy;
     if (invalidDate) error = "RSVP By Date has already passed."
 
     if (invalidPin || invalidEmail || invalidDate) {
-      return res.status(400).json({ error });
+      return res.json({ error });
     }
 
     if (req.body.accepted === "Accept") {
-      rsvp.num_guests += parseInt(req.body.party_size);
+      rsvp.numGuests += parseInt(req.body.partySize);
       rsvp.joined = rsvp.joined.concat({
         party: req.body.party,
-        party_size: req.body.party_size,
+        partySize: req.body.partySize,
         email: req.body.email
       });
 
       // acceptEmail(
       //   req.body.email,
-      //   rsvp.author_email,
-      //   rsvp.author_phone,
+      //   rsvp.authorEmail,
+      //   rsvp.authorPhone,
       //   rsvp.title,
       //   rsvp.description,
       //   rsvp.location,
       //   rsvp.date,
       //   rsvp.time,
-      //   rsvp.end_time,
+      //   rsvp.endTime,
       //   rsvp.id
       // );
     } else {
@@ -203,6 +205,7 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
     await rsvp.save();
     res.status(201).json({ message: "Submitted" });
   } catch (err) {
+    console.log(err);
     res.status(500).send("Server Error");
   }
 });

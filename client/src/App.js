@@ -14,6 +14,7 @@ import AccountDelete from "./components/AccountDelete";
 import Dashboard from "./components/Dashboard";
 import CreateRSVP from "./components/CreateRSVP";
 import ReadRSVP from './components/ReadRSVP';
+import UpdateRSVP from './components/UpdateRSVP';
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
 
@@ -97,6 +98,13 @@ export default class App extends Component {
                 exact
                 path="/cc/:id"
                 render={routeProps => <ReadRSVP {...routeProps} />}
+              />
+
+              <ProtectedRoute
+                exact
+                path="/cc/:id/edit"
+                getUser={this.getUser}
+                render={routeProps => <UpdateRSVP {...routeProps} />}
               />
 
               <Route

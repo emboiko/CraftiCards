@@ -1,28 +1,147 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 export default class ReplyRSVP extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      party: "",
+      partySize: 1,
+      email: "",
+      pin: "",
+      message: ""
+    };
+  }
+
+  handleChange = (e) => {
+    switch (e.target.name) {
+      case "pin":
+        this.setState({ pin: e.target.value.toUpperCase() });
+        break;
+      default:
+        this.setState({ [e.target.name]: e.target.value });
+    }
+  }
+  handleClick = (e) => this.handleSubmit(e);
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    this.setState({ message: "" });
+    if (e.target.parentNode.checkValidity()) {
+      const { party, partySize, email, pin } = this.state;
+      try {
+        const res = await axios.post(
+          `/rsvp/${this.props.id}`,
+          {
+            accepted: e.target.value,
+            party,
+            partySize,
+            email,
+            pin
+          });
+
+        if (res.status === 201) {
+          this.props.history.push("/submitted");
+        }
+
+        if (res.status === 200) {
+          this.setState({ message: res.data.error });
+        }
+      } catch (err) {
+        this.setState({ message: "Server Error." });
+      }
+    } else {
+      this.setState({ message: "Please fill out all form fields completely." });
+    }
+  }
+
   render() {
     return (
-      // <form >
-      //     {this.state.message}
-      //     <label for="party">*Party Name</label>
-      //     <input type="text" name="party" value="<%=locals.user ? user.first_name + ' ' + user.last_name : ''%>"
-      //         placeholder="John Doe" required/>
-      //     <label for="email">*Email</label>
-      //     <input type="email" name="email" value="<%=locals.user ? user.email : ''%>" placeholder="jdoe@gmail.com"
-      //         required/>
-      //     <label for="party_size">Number of guests in party</label>
-      //     <input type="number" name="party_size" min="1" value="1" required/>
+      <div className="row">
+        <div className="col s10 offset-s1 m8 offset-m2 l6 offset-l3">
+          <p className="error bold">
+            {this.state.message}
+          </p>
+          <form onSubmit={this.handleSubmit}>
+            <div className="input-field">
+              <label htmlFor="party">*Party Name:</label>
+              <br />
+              <input
+                type="text"
+                name="party"
+                value={this.state.party}
+                onChange={this.handleChange}
+                className="center"
+                required
+              />
+            </div>
 
-      //     <% if (rsvp.pin) { %>
-      //     <label for="pin">*PIN</label>
-      //     <input class="center-text" type="text" name="pin" id="pin"/>
-      //     <% } %>
+            <div className="input-field">
+              <label htmlFor="email">*Email:</label>
+              <br />
+              <input
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                className="center"
+                required
+              />
+            </div>
 
-      //     <input class="btn submit mbottom mtop" type="submit" name="accepted" value="Accept"/>
-      //     <input class="btn submit delete" type="submit" name="accepted" value="Decline"/>
-      // </form>
-      <></>
+            <div className="row">
+              <div className="input-field col s4 offset-s4">
+                <label htmlFor="partySize">*Guests in party:</label>
+                <br />
+                <input
+                  type="number"
+                  name="partySize"
+                  min="1"
+                  onChange={this.handleChange}
+                  value={this.state.partySize}
+                  className="center"
+                  required
+                />
+                {
+                  this.props.pin ?
+                    <div className="input-field">
+                      <label htmlFor="pin">*PIN:</label>
+                      <br />
+                      <input
+                        type="text"
+                        name="pin"
+                        id="pin"
+                        onChange={this.handleChange}
+                        value={this.state.pin}
+                        className="center"
+                        required
+                      />
+                    </div>
+                    :
+                    ""
+                }
+              </div>
+
+            </div>
+
+
+            <input
+              className="btn blue-grey darken-3 submit mright"
+              type="submit"
+              name="accepted"
+              value="Accept"
+              onClick={this.handleClick}
+            />
+            <input
+              className="btn red submit mleft "
+              type="submit"
+              name="accepted"
+              value="Decline"
+              onClick={this.handleClick}
+            />
+          </form>
+        </div>
+      </div>
     );
   }
 }

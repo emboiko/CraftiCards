@@ -7,13 +7,13 @@ const RSVP_Schema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  author_email: {
+  authorEmail: {
     type: String,
     trim: true,
     lowercase: true,
     required: true
   },
-  author_phone: {
+  authorPhone: {
     type: String,
     trim: true,
     validate(author_phone) {
@@ -53,7 +53,7 @@ const RSVP_Schema = new mongoose.Schema({
       }
     }
   },
-  rsvp_by: {
+  rsvpBy: {
     type: Date,
     required: true,
     trim: true,
@@ -83,7 +83,7 @@ const RSVP_Schema = new mongoose.Schema({
       }
     }
   },
-  end_time: {
+  endTime: {
     type: String,
     trim: true,
     validate(time) {
@@ -115,7 +115,7 @@ const RSVP_Schema = new mongoose.Schema({
     required: true,
     ref: "User"
   },
-  num_guests: {
+  numGuests: {
     type: Number,
     default: 0
   },
@@ -124,7 +124,7 @@ const RSVP_Schema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    party_size: {
+    partySize: {
       type: Number,
       required: true
     },

@@ -5,13 +5,13 @@ const jwt = require("jsonwebtoken");
 const RSVP = require("./RSVP");
 
 const userSchema = new mongoose.Schema({
-  first_name: {
+  firstName: {
     type: String,
     required: [true, "First name is required."],
     trim: true,
     maxlength: [60, "First name must be 60 characters or less."]
   },
-  last_name: {
+  lastName: {
     type: String,
     required: [true, "Last name is required."],
     trim: true,

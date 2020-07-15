@@ -6,19 +6,21 @@ export default class CreateRSVP extends Component {
     super(props);
     this.state = {
       author: "",
-      author_email: "",
-      author_phone: "",
+      authorEmail: "",
+      authorPhone: "",
       title: "",
       description: "",
       img: undefined,
       location: "",
       date: "",
-      rsvp_by: "",
+      rsvpBy: "",
       time: "",
-      end_time: "",
+      endTime: "",
       pin: "",
     };
   }
+
+  componentDidMount = () => document.title = "CraftiCards | New RSVP";
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,27 +107,27 @@ export default class CreateRSVP extends Component {
                 required />
             </div>
             <div className="input-field">
-              <label htmlFor="author_email">*Contact Email</label>
+              <label htmlFor="authorEmail">*Contact Email</label>
               <br />
               <input
                 type="email"
-                name="author_email"
+                name="authorEmail"
                 className="center"
-                value={this.state.author_email}
+                value={this.state.authorEmail}
                 onChange={this.handleChange}
                 required
               />
             </div>
 
             <div className="input-field">
-              <label htmlFor="author_phone">Contact Phone <small>(Format: 123-456-7890)</small></label>
+              <label htmlFor="authorPhone">Contact Phone <small>(Format: 123-456-7890)</small></label>
               <br />
               <input
                 type="tel"
                 className="center"
-                name="author_phone"
+                name="authorPhone"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                value={this.state.author_phone}
+                value={this.state.authorPhone}
                 onChange={this.handleChange}
                 onKeyPress={this.handleKeyPress}
               />
@@ -201,13 +203,13 @@ export default class CreateRSVP extends Component {
               </div>
 
               <div className="input-field">
-                <label htmlFor="rsvp_by">*RSVP By Date</label>
+                <label htmlFor="rsvpBy">*RSVP By Date</label>
                 <br />
                 <input
                   className="center"
                   type="date"
-                  name="rsvp_by"
-                  value={this.state.rsvp_by}
+                  name="rsvpBy"
+                  value={this.state.rsvpBy}
                   onChange={this.handleChange}
                   required
                 />
@@ -229,13 +231,13 @@ export default class CreateRSVP extends Component {
               </div>
 
               <div className="input-field">
-                <label htmlFor="end_time">End Time</label>
+                <label htmlFor="endTime">End Time</label>
                 <br />
                 <input
                   className="center"
                   type="time"
-                  name="end_time"
-                  value={this.state.end_time}
+                  name="endTime"
+                  value={this.state.endTime}
                   onChange={this.handleChange}
                 />
               </div>

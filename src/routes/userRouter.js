@@ -28,11 +28,12 @@ userRouter.post("/users", noAuth, async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
-    // welcomeEmail(user.email, user.first_name);
+    // welcomeEmail(user.email, user.firstName);
     const token = await user.generateAuthToken();
     res.cookie("access_token", token, { httpOnly: true });
     res.status(200).send(user);
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: err.message });
   }
 });
@@ -46,8 +47,8 @@ userRouter.patch("/users/me", auth, async (req, res) => {
 
   const updates = Object.keys(req.body);
   const allowedUpdates = [
-    "first_name",
-    "last_name",
+    "firstName",
+    "lastName",
     "email",
     "password",
     "phone",
@@ -73,7 +74,7 @@ userRouter.patch("/users/me", auth, async (req, res) => {
 userRouter.delete("/users/me", auth, async (req, res) => {
   await req.user.remove();
   res.clearCookie("access_token");
-  // cancelEmail(req.user.email, req.user.first_name);
+  // cancelEmail(req.user.email, req.user.firstName);
   res.status(202).json({
     message: "Account Deleted"
   });

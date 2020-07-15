@@ -12,8 +12,8 @@ export default class Account extends Component {
       file: null,
       avatar: "",
       avatarDeleteButtonID: "delete-avatar",
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       phone: ""
@@ -29,8 +29,8 @@ export default class Account extends Component {
     const user = await this.props.getUser();
     this.setState({ user });
     this.setState({
-      first_name: user.first_name,
-      last_name: user.last_name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       password: "",
       phone: user.phone,
@@ -41,8 +41,8 @@ export default class Account extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
@@ -178,34 +178,34 @@ export default class Account extends Component {
             <form className="col s10 offset-s1 m8 offset-m2 l6 offset-l3" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="first_name">*First Name</label>
+                  <label htmlFor="firstName">*First Name</label>
                   <br />
                   <input
-                    name="first_name"
-                    id="first_name"
+                    name="firstName"
+                    id="firstName"
                     type="text"
                     className="validate"
                     required
                     maxLength="60"
                     minLength="1"
-                    value={this.state.first_name}
+                    value={this.state.firstName}
                     onChange={this.handleChange}
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
-                  <label htmlFor="last_name">*Last Name</label>
+                  <label htmlFor="lastName">*Last Name</label>
                   <br />
                   <input
-                    name="last_name"
-                    id="last_name"
+                    name="lastName"
+                    id="lastName"
                     type="text"
                     className="validate"
                     required
                     maxLength="60"
                     minLength="1"
-                    value={this.state.last_name}
+                    value={this.state.lastName}
                     onChange={this.handleChange}
                   />
                 </div>

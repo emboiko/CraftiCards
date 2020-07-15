@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Loading from "./utils/Loading";
 import ReplyRSVP from "./utils/ReplyRSVP";
+import PublicGuestList from "./utils/PublicGuestList";
 import favicon from "../img/favicon.png";
 
 export default class ReadRSVP extends Component {
@@ -12,14 +13,16 @@ export default class ReadRSVP extends Component {
       description: "",
       location: "",
       date: "",
-      rsvp_by: "",
+      rsvpBy: "",
       time: "",
-      end_time: "",
+      endTime: "",
       author: "",
-      author_email: "",
-      author_phone: "",
+      authorEmail: "",
+      authorPhone: "",
+      pin: "",
       img: "",
       id: "",
+      joined: ""
     }
   }
 
@@ -35,20 +38,22 @@ export default class ReadRSVP extends Component {
       description: res.data.description,
       location: res.data.location,
       date: res.data.date,
-      rsvpBy: res.data.rsvp_by,
+      rsvpBy: res.data.rsvpBy,
       time: res.data.time,
-      endTime: res.data.end_time,
+      endTime: res.data.endTime,
       author: res.data.author,
-      authorEmail: res.data.author_email,
-      authorPhone: res.data.author_phone,
+      authorEmail: res.data.authorEmail,
+      authorPhone: res.data.authorPhone,
+      pin: res.data.pin,
       id: res.data.id,
       qr: res.data.qr,
-      numGuests: res.data.num_guests,
+      numGuests: res.data.numGuests,
       joined: res.data.joined,
     });
     this.setState({
       img: `/rsvp/${this.state.id}/img?` + new Date().getTime()
     });
+    document.title = `CraftiCards | ${this.state.title}`;
   }
 
   handleBrokenImage = (e) => {
@@ -86,7 +91,7 @@ export default class ReadRSVP extends Component {
         }
 
         {
-          this.state.end_time ?
+          this.state.endTime ?
             " - " + new Date('1970-01-01T' + this.state.endTime + 'Z')
               .toLocaleTimeString({}, options)
             :
@@ -112,6 +117,8 @@ export default class ReadRSVP extends Component {
           </h2>
 
           <img onError={this.handleBrokenImage} src={this.state.img} alt="rsvp" />
+
+          <hr />
 
           <p>
             {this.state.description}
@@ -141,17 +148,13 @@ export default class ReadRSVP extends Component {
           {this.state.numGuests} total guests.
           </p>
 
-          {/* <button >Show the guest-list</button>
+          <PublicGuestList joined={this.state.joined} />
 
-          <div class="guestlist">
-            <ul class="partylist center-text">
-              {this.state.joined.forEach((party) => {
-                return <li>{party.party}</li>
-              })}
-            </ul>
-          </div> */}
-
-          <ReplyRSVP />
+          <ReplyRSVP
+            id={this.state.id}
+            pin={this.state.pin}
+            history={this.props.history}
+          />
         </div>
       );
     }
