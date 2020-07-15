@@ -26,6 +26,7 @@ export default class UpdateRSVP extends Component {
   componentDidMount = async () => {
     let res;
     try {
+      // probe the api with an empty patch request to see if we own this rsvp:
       res = await axios.patch(`/rsvp/${this.props.match.params.id}`);
     } catch (err) {
       return this.props.history.push("/not_found");

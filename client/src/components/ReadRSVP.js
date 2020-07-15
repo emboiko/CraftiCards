@@ -116,7 +116,7 @@ export default class ReadRSVP extends Component {
             {this.state.title}
           </h2>
 
-          <img onError={this.handleBrokenImage} src={this.state.img} alt="rsvp" />
+          <img className="responsive-img" onError={this.handleBrokenImage} src={this.state.img} alt="rsvp" />
 
           <hr />
 

@@ -4,7 +4,7 @@ import axios from "axios";
 export default class AccountDelete extends Component {
   componentDidMount = () => document.title = "CraftiCards | Delete Account";
 
-  goBack = () => this.props.history.push("/account");
+  cancel = () => this.props.history.goBack();
 
   deleteAccount = async () => {
     await axios.delete("/users/me");
@@ -21,14 +21,13 @@ export default class AccountDelete extends Component {
           <small>This cannot be reversed</small>
           <div className="button-box">
             <br />
-            <button className="btn blue-grey" onClick={this.goBack}>
-              Back
+            <button className="btn blue-grey" onClick={this.cancel}>
+              Cancel
           </button>
             <br />
             <button className="btn red mtop" onClick={this.deleteAccount}>
               Delete Account
           </button>
-
           </div>
         </div>
       </div>
