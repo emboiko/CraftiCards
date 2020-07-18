@@ -122,7 +122,7 @@ export default class App extends Component {
             </Switch>
           </main>
         </div>
-        <Footer />
+        <Footer user={this.state.user} />
       </BrowserRouter>
     );
   }

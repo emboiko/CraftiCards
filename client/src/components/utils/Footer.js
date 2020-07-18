@@ -22,7 +22,7 @@ export default class Footer extends Component {
                 <li><Link className="white-text" to="/contribute">Contribute</Link></li>
                 <li><Link className="white-text" to="/tos">Terms of Use</Link></li>
               </ul>
-              <Logout />
+              {this.props.user ? <Logout /> : ""}
             </div>
             <Link to="/" id="logo-container" className="brand-logo hide-on-large-only">
               <img className="logo-footer" src={logo} alt="CraftiCards" />
