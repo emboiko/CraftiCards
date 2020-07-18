@@ -10,6 +10,7 @@ export default class DeleteRSVP extends Component {
       return this.props.history.push("/not_found");
     }
     document.title = "CraftiCards | Delete RSVP";
+    window.scrollTo(0, 0);
   }
 
   cancel = () => this.props.history.goBack();

@@ -56,6 +56,7 @@ export default class UpdateRSVP extends Component {
     });
 
     document.title = "CraftiCards | Edit RSVP";
+    window.scrollTo(0, 0);
   }
 
   handleSubmit = async (e) => {

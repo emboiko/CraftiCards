@@ -90,7 +90,7 @@ export default class ReplyRSVP extends Component {
             </div>
 
             <div className="row">
-              <div className="input-field col s4 offset-s4">
+              <div className="input-field col s6 offset-s3">
                 <label htmlFor="partySize">*Guests in party:</label>
                 <br />
                 <input

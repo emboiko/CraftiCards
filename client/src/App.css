@@ -89,13 +89,16 @@ label {
     resize: vertical;
 }
 
+.rsvp-desc {
+    white-space: pre-wrap;
+}
+
 .pin-input {
     text-align: center;
 }
 
-.dboard-card {
-    width: 200px;
-    margin: 0 auto;
+.rsvp-img {
+    max-width: 350px;
 }
 
 .dboard-qr {
@@ -103,8 +106,27 @@ label {
     margin: 0 auto;
 }
 
+.qr {
+    display: block;
+    margin: 0 auto;
+}
+
 .activator {
     cursor: pointer;
+}
+
+.card-btn {
+    width: 125px;
+}
+
+.padded {
+    padding: 35px;
+}
+
+.card-img {
+    width: 250px !important;
+    height: 250px !important;
+    margin: 0 auto;
 }
 
 .input-field input:focus + label, .materialize-textarea:focus:not([readonly]) + label {
@@ -114,4 +136,11 @@ label {
 .input-field input:focus, .materialize-textarea:focus:not([readonly]) {
     border-bottom: 1px solid #263238 !important;
     box-shadow: 0 1px 0 0 #263238 !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .card-img {
+        width: 150px !important;
+        height: 150px !important;
+    }
 }

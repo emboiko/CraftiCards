@@ -12,7 +12,10 @@ export default class Login extends Component {
     };
   }
 
-  componentDidMount = () => document.title = "CraftiCards | Login";
+  componentDidMount = () => {
+    document.title = "CraftiCards | Login";
+    window.scrollTo(0, 0);
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();

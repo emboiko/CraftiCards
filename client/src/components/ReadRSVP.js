@@ -4,6 +4,7 @@ import Loading from "./utils/Loading";
 import ReplyRSVP from "./utils/ReplyRSVP";
 import PublicGuestList from "./utils/PublicGuestList";
 import favicon from "../img/favicon.png";
+import M from "materialize-css";
 
 export default class ReadRSVP extends Component {
   constructor(props) {
@@ -53,7 +54,11 @@ export default class ReadRSVP extends Component {
     this.setState({
       img: `/rsvp/${this.state.id}/img?` + new Date().getTime()
     });
+
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+
     document.title = `CraftiCards | ${this.state.title}`;
+    window.scrollTo(0, 0);
   }
 
   handleBrokenImage = (e) => {
@@ -112,43 +117,65 @@ export default class ReadRSVP extends Component {
       return (
         <div className="container center">
 
-          <h2>
-            {this.state.title}
-          </h2>
 
-          <img className="responsive-img" onError={this.handleBrokenImage} src={this.state.img} alt="rsvp" />
+          <div className="row">
+            <div className="col s10 offset-s1 m8 offset-m2 l6 offset-l3">
+              <h4>
+                {this.state.title}
+              </h4>
+              <img className="responsive-img mbottom rsvp-img" onError={this.handleBrokenImage} src={this.state.img} alt="rsvp" />
+              <ul className="collapsible popout mtop">
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">description</i>Description</div>
+                  <div className="collapsible-body">
+                    <p className="rsvp-desc">
+                      {this.state.description}
+                    </p>
+                    <p>
+                      {this.state.author}
+                    </p>
+                    <p>
+                      {this.state.authorEmail}
+                    </p>
+                    <p>
+                      {this.state.authorPhone}
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">place</i>When / Where</div>
+                  <div className="collapsible-body">
+                    <p >
+                      {this.state.location}
+                    </p>
 
-          <hr />
+                    {dateDisplay}
 
-          <p>
-            {this.state.description}
-          </p>
-          <p >
-            {this.state.location}
-          </p>
+                    {timeDisplay}
 
-          {dateDisplay}
+                    {rsvpByDisplay}
+                  </div>
+                </li>
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">people_outline</i>Guests</div>
+                  <div className="collapsible-body">
+                    <p>
+                      {this.state.joined.length} parties registered
+                      |&nbsp;
+                  {this.state.numGuests} total guests.
+                </p>
 
-          {timeDisplay}
+                    <div className="row">
+                      <div className="col s12">
+                        <PublicGuestList joined={this.state.joined} />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-          {rsvpByDisplay}
-
-          <p>
-            {this.state.author}
-          </p>
-          <p>
-            {this.state.authorEmail}
-          </p>
-          <p>
-            {this.state.authorPhone}
-          </p>
-          <p>
-            {this.state.joined.length} parties registered
-            |&nbsp;
-          {this.state.numGuests} total guests.
-          </p>
-
-          <PublicGuestList joined={this.state.joined} />
 
           <ReplyRSVP
             id={this.state.id}

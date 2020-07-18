@@ -4,6 +4,7 @@ import notFound from "../img/notFound.png"
 export default class NotFound extends Component {
   componentDidMount() {
     document.title = "CraftiCards | Not Found";
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.props.history.push("/");
     }, 4000);

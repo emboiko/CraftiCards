@@ -15,7 +15,10 @@ export default class Register extends Component {
     };
   }
 
-  componentDidMount = () => document.title = "CraftiCards | Register";
+  componentDidMount = () => {
+    document.title = "CraftiCards | Register";
+    window.scrollTo(0, 0);
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();

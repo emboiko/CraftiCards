@@ -20,7 +20,10 @@ export default class CreateRSVP extends Component {
     };
   }
 
-  componentDidMount = () => document.title = "CraftiCards | New RSVP";
+  componentDidMount = () => {
+    document.title = "CraftiCards | New RSVP";
+    window.scrollTo(0, 0);
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();

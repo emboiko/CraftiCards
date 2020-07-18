@@ -29,8 +29,9 @@ export default class Account extends Component {
   }
 
   componentDidMount = async () => {
-    document.title = "CraftiCards | Account";
     this.populate();
+    document.title = "CraftiCards | Account";
+    window.scrollTo(0, 0);
   }
 
   populate = async () => {

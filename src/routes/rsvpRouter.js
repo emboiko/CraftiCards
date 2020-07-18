@@ -92,10 +92,12 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("img"), async (req, res) => {
   if (!valid) return res.status(400).json({ message: "Invalid Updates" });
 
   try {
-    updates.forEach((update) => rsvp[update] = req.body[update]);
+    updates.forEach((update) => {
+      update !== "img" ? rsvp[update] = req.body[update] : "";
+    });
 
-    if (req.img) {
-      const buffer = await sharp(req.img.buffer)
+    if (req.file) {
+      const buffer = await sharp(req.file.buffer)
         .resize({ width: 500, height: 500 })
         .png()
         .toBuffer();
@@ -108,7 +110,6 @@ rsvpRouter.patch("/rsvp/:id", auth, upload.single("img"), async (req, res) => {
   } catch (err) {
     res.status(500).send("Server Error");
   }
-
 });
 
 rsvpRouter.delete("/rsvp/:id", auth, async (req, res) => {

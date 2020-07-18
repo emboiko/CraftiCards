@@ -11,7 +11,10 @@ import lightBulb from "../img/iconLightBulb.png";
 import mailBox from "../img/iconMailBox.png";
 
 export default class Landing extends Component {
-  componentDidMount = () => document.title = "CraftiCards";
+  componentDidMount = () => {
+    document.title = "CraftiCards";
+    window.scrollTo(0, 0);
+  }
 
   render() {
     let getStarted;

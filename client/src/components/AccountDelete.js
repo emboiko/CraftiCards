@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import axios from "axios";
 
 export default class AccountDelete extends Component {
-  componentDidMount = () => document.title = "CraftiCards | Delete Account";
+  componentDidMount = () => {
+    document.title = "CraftiCards | Delete Account";
+    window.scrollTo(0, 0);
+  }
 
   cancel = () => this.props.history.goBack();
 
