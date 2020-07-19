@@ -58,18 +58,25 @@ export default class Dashboard extends Component {
               <div className="center">
 
                 <Link
-                  className="waves-effect waves-light blue-grey darken-3 btn card-btn mbottom"
+                  className="disabled waves-effect waves-light blue-grey darken-3 btn card-btn mbottom mright"
                   to={`/cc/${rsvp.id}`}
                 >
                   Card
                   <i className="material-icons right">card_giftcard</i>
                 </Link>
+                <button
+                  className="waves-effect waves-light blue-grey darken-3 btn mbottom modal-trigger mright"
+                  data-target={`modal${i}`}
+                >
+                  <i className="material-icons right">people</i>
+                  Guests &nbsp;
+                </button>
                 <br />
                 <Link
                   className="waves-effect waves-light blue-grey darken-3 btn card-btn mbottom"
                   to={`/cc/${rsvp.id}`}
                 >
-                  View
+                  Page
                   <i className="material-icons right">visibility</i>
                 </Link>
                 <Link
@@ -88,13 +95,7 @@ export default class Dashboard extends Component {
                 </Link>
 
                 <br />
-                <button
-                  className="waves-effect waves-light blue-grey darken-3 btn modal-trigger"
-                  data-target={`modal${i}`}
-                >
-                  <i className="material-icons right">people</i>
-                  Guests &nbsp;
-                </button>
+
 
               </div>
             </div>
@@ -136,7 +137,6 @@ export default class Dashboard extends Component {
       return (
         <div className="container">
           <div className="center">
-            <Link to="/cc" className="mtop waves-effect waves-light blue-grey darken-3 btn mbottom"><i className="material-icons right">add_box</i>New RSVP</Link>
           </div>
           <div className="row">
             <div className="col s10 offset-s1 m8 offset-m2 l6 offset-l3">

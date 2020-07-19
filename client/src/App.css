@@ -145,6 +145,11 @@ label {
     box-shadow: 0 1px 0 0 #263238 !important;
 }
 
+.input-field input.valid {
+    border-bottom: 1px solid #263238 !important;
+    box-shadow: 0 1px 0 0 #263238 !important;
+}
+
 .indicators li {
     background-color: black !important;
     border: 2px solid white;

@@ -195,10 +195,9 @@ export default class Account extends Component {
 
           </div>
           <div className="row">
-
             <form className="col s10 offset-s1 m8 offset-m2 l6 offset-l3" onSubmit={this.handleSubmit}>
               <div className="row">
-                <div className="input-field col s12">
+                <div className="input-field col s6">
                   <label htmlFor="firstName">*First Name</label>
                   <br />
                   <input
@@ -213,9 +212,7 @@ export default class Account extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
+                <div className="input-field col s6">
                   <label htmlFor="lastName">*Last Name</label>
                   <br />
                   <input

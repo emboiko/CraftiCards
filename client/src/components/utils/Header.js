@@ -11,11 +11,22 @@ export default class Header extends Component {
 
     if (this.props.user) {
       userLinks = <>
+
+        <li>
+          <NavLink
+            activeClassName="active-link"
+            className="sidenav-close"
+            to="/cc">
+            <i className="material-icons left">add</i>
+            New
+          </NavLink>
+        </li>
         <li>
           <NavLink
             activeClassName="active-link"
             className="sidenav-close"
             to="/dashboard">
+            <i className="material-icons left">dashboard</i>
             Dashboard
           </NavLink>
         </li>
@@ -24,6 +35,7 @@ export default class Header extends Component {
             activeClassName="active-link"
             className="email-trunc sidenav-close"
             to="/account">
+            <i className="material-icons left">account_box</i>
             {this.props.user.email}
           </NavLink>
         </li>
