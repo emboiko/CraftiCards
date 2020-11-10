@@ -15,9 +15,9 @@ import Dashboard from "./components/Dashboard";
 import CreateRSVP from "./components/CreateRSVP";
 import ReadRSVP from './components/ReadRSVP';
 import UpdateRSVP from './components/UpdateRSVP';
+import DeleteRSVP from './components/DeleteRSVP';
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
-import DeleteRSVP from './components/DeleteRSVP';
 
 export default class App extends Component {
   constructor() {
