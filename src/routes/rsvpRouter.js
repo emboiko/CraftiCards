@@ -184,18 +184,18 @@ rsvpRouter.post("/rsvp/:id", async (req, res) => {
         email: req.body.email
       });
 
-      // acceptEmail(
-      //   req.body.email,
-      //   rsvp.authorEmail,
-      //   rsvp.authorPhone,
-      //   rsvp.title,
-      //   rsvp.description,
-      //   rsvp.location,
-      //   rsvp.date,
-      //   rsvp.time,
-      //   rsvp.endTime,
-      //   rsvp.id
-      // );
+      acceptEmail(
+        req.body.email,
+        rsvp.authorEmail,
+        rsvp.authorPhone,
+        rsvp.title,
+        rsvp.description,
+        rsvp.location,
+        rsvp.date,
+        rsvp.time,
+        rsvp.endTime,
+        rsvp.id
+      );
     } else {
       rsvp.declined = rsvp.declined.concat({
         party: req.body.party,
